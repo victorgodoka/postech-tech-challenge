@@ -1,7 +1,4 @@
 "use client";
-
-import { ButtonsVariant } from "@/const";
-import { Button } from "../Button";
 import { topbarVariants } from "./topbarVariants";
 import { Icon } from "@iconify/react";
 
@@ -10,11 +7,7 @@ type TopBarProps = {
   variant?: "home" | "app";
   logo?: React.ReactNode;
   links?: { label: string; href: string }[];
-  actions?: {
-    label: string;
-    href: string;
-    variant: ButtonsVariant;
-  }[];
+  actions?: React.ReactNode;
 };
 
 export const TopBar = ({
@@ -32,9 +25,9 @@ export const TopBar = ({
           <span className="text-lg font-bold">{title}</span>
           {links.length > 0 && (
             <nav className="flex gap-4 ml-6">
-              {links.map((link) => (
+              {links.map((link, i) => (
                 <a
-                  key={link.href}
+                  key={i}
                   href={link.href}
                   className="text-lg hover:underline font-semibold"
                 >
@@ -44,13 +37,7 @@ export const TopBar = ({
             </nav>
           )}
         </div>
-        <div className="flex gap-2">
-          {actions.map((action, index) => (
-            <Button type="a" href="#" variant={action.variant} key={index}>
-              {action.label}
-            </Button>
-          ))}
-        </div>
+        {actions && <div className="flex gap-2">{actions}</div>}
       </div>
 
       <div className="items-center justify-between w-full flex md:hidden">

@@ -60,8 +60,8 @@ export const Select = ({
                   onChange?.(opt.value);
                   setOpen(false);
                   }}
-                  className={`px-4 py-2 text-center text-primary cursor-pointer hover:bg-gray hover:font-bold ${
-                  isSelected ? "bg-gray font-bold" : ""
+                  className={`px-4 py-2 text-center text-primary cursor-pointer hover:bg-offwhite hover:font-bold ${
+                  isSelected ? "bg-offwhite font-bold" : ""
                 }`}
               >
                 {opt.label}

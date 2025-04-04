@@ -6,7 +6,7 @@ import { ButtonsVariant } from "@/const";
 export type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
-  type?: "button" | "a" | "link";
+  type?: "button" | "a" | "link" | "submit";
   disabled?: boolean;
   href?: string;
   variant: ButtonsVariant;

@@ -1,10 +1,13 @@
 @import "tailwindcss";
+@import "tailwindcss-animated";
+
 @theme {
     /* Cores */
     --color-primary: #024D60;
     --color-green: #47A138;
+    --color-red: #FF5031;
     --color-gray: #dee9ea;
-    --color-gray-light: #f8f8f8;
+    --color-offwhite: #f8f8f8;
     --color-gray-medium: #767676;
     --color-gray-dark: #8b8b8b;
     --color-error: #bf1313;

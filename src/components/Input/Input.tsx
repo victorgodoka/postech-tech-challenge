@@ -5,13 +5,15 @@ import { FieldError } from "@/components/FieldError";
 type InputProps = {
   id: string;
   label: string;
-  type?: "text" | "number" | "date" | "currency";
+  type?: string;
   placeholder?: string;
   value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   disabled?: boolean;
   prefix?: string;
+  variant?: keyof typeof inputVariants;
 };
 
 export const Input = ({
@@ -21,13 +23,20 @@ export const Input = ({
   placeholder,
   value = "",
   onChange,
+  onBlur,
   error,
   disabled = false,
   prefix,
+  variant = "default",
 }: InputProps) => {
-  const baseStyle = `${inputVariants.base} ${
-    error ? inputVariants.error : inputVariants.default
-  } ${disabled ? inputVariants.disabled : ""}`;
+  const baseStyle = [
+    inputVariants.base,
+    inputVariants[variant] ?? inputVariants.default,
+    error && inputVariants.error,
+    disabled && inputVariants.disabled,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const formatCurrency = (val: string) => {
     if (!val) return "";
@@ -48,7 +57,7 @@ export const Input = ({
   };
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 w-full">
       <label htmlFor={id} className="text-sm font-semibold text-primary">
         {label}
       </label>
@@ -60,6 +69,7 @@ export const Input = ({
           inputMode="numeric"
           value={formatCurrency(String(value))}
           onChange={handleCurrencyChange}
+          onBlur={onBlur}
           disabled={disabled}
           placeholder={placeholder}
           className={baseStyle}
@@ -73,10 +83,11 @@ export const Input = ({
           )}
           <input
             id={id}
-            type={type === "number" ? "text" : type} // força text se número
+            type={type === "number" ? "text" : type}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
+            onBlur={onBlur}
             disabled={disabled}
             className={`${baseStyle} ${prefix ? "pl-10" : ""}`}
           />

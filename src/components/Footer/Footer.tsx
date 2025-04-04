@@ -19,8 +19,8 @@ export const Footer = ({ columns }: FooterProps) => {
           <div key={col.title}>
             <h4 className="font-bold mb-2">{col.title}</h4>
             <ul className="space-y-1">
-              {col.links.map((link) => (
-                <li key={link.href}>
+              {col.links.map((link, i) => (
+                <li key={i}>
                   <a href={link.href} className="hover:underline">
                     {link.label}
                   </a>
