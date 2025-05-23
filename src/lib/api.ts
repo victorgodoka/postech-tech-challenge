@@ -1,8 +1,16 @@
 // lib/api.ts
 import { getDB } from './db';
 import { hashPassword, createSession } from "@/utils";
+import { v4 as uuid } from 'uuid';
 
-export async function createUser(user: { name: string; email: string; password: string }) {
+export type User = {
+  id?: string;
+  name: string;
+  email: string;
+  password: string
+}
+
+export async function createUser(user: User) {
   const db = await getDB();
 
   const existing = await getUserByEmail(user.email);
@@ -11,7 +19,7 @@ export async function createUser(user: { name: string; email: string; password: 
   }
 
   const hashed = await hashPassword(user.password);
-  await db.put("users", { ...user, password: hashed });
+  await db.put("users", { ...user, password: hashed, id: uuid() });
 }
 
 export async function getUserByEmail(email: string) {
@@ -26,8 +34,7 @@ export async function loginUser(email: string, password: string) {
   const hashed = await hashPassword(password);
   if (user.password !== hashed) throw new Error("Senha incorreta.");
 
-  // Cria e salva a sessão (expira em 30 min)
-  createSession(email);
+  createSession(email, user.id!);
 
   return user;
 }

@@ -8,7 +8,7 @@ import { Input } from "../Input";
 import { Button } from "../Button";
 import { Icon } from "@iconify/react";
 import { isValidEmail } from "@/utils";
-import { useAuth } from "@/hooks";
+import { useAuth } from "@/hooks/useSession";
 import { toast } from "react-toastify";
 
 interface LoginFormProps {

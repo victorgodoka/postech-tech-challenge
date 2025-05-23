@@ -15,6 +15,7 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 export type Session = {
+  id: string;
   email: string;
   token: string;
   expiresAt: number;
@@ -22,12 +23,12 @@ export type Session = {
 
 const SESSION_KEY = "bank-app-session";
 
-export function createSession(email: string, durationMinutes = 30): Session {
+export function createSession(email: string, id: string, durationMinutes = 30): Session {
   const now = Date.now();
   const expiresAt = now + durationMinutes * 60 * 1000;
   const token = crypto.randomUUID();
 
-  const session: Session = { email, token, expiresAt };
+  const session: Session = { email, token, expiresAt, id };
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   return session;
 }

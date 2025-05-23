@@ -1,4 +1,3 @@
-// hooks/useSession.ts
 import { useEffect, useState } from "react";
 import { getSession, Session } from "@/utils";
 import { useAuthContext } from "@/context/AuthContext";
@@ -23,6 +22,7 @@ export function useSession(redirectTo = "/") {
 }
 
 export const useAuth = () => {
-  const { session, isAuthenticated, login, logout } = useAuthContext();
-  return { session, isAuthenticated, login, logout };
+  const { session, isAuthenticated, login, logout, loading } = useAuthContext();
+  return { session, isAuthenticated, login, logout, loading };
 };
+

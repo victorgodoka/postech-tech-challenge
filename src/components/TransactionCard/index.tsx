@@ -3,17 +3,15 @@ import moment from "moment";
 moment.locale("pt-BR");
 
 type TransactionCardProps = {
-  transaction: string;
+  type: string;
   date: string | Date;
   value: number;
-  type?: "entrada" | "saida";
 };
 
 export const TransactionCard = ({
-  transaction,
+  type,
   date,
   value,
-  type,
 }: TransactionCardProps) => {
   const formattedValue = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -21,20 +19,19 @@ export const TransactionCard = ({
   }).format(value / 100);
 
   return (
-    <div className="rounded p-4 bg-white w-full flex justify-between items-center">
+    <div className="rounded p-4 bg-white w-full flex justify-between items-center border-b border-green">
       <div>
         <span className="text-sm text-primary font-semibold uppercase">
           {moment(date).format("MMMM")}
         </span>
         <div className="flex flex-col">
-          <span className="text-base text-black">{transaction}</span>
+          <span className="text-base text-black">{type}</span>
           <span
             className={clsx(
               "text-base font-bold",
-              type === "saida" ? "text-error" : "text-black"
+              value < 0 ? "text-error" : "text-black"
             )}
           >
-            {type === "saida" ? "-" : ""}
             {formattedValue}
           </span>
         </div>
