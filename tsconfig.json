@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/ConsentCheckbox"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.cjs", "**/*.tsx", ".next/types/**/*.ts", "src/components/ConsentCheckbox", "eslint.config.js", "postcss.config.js"],
   "exclude": ["node_modules"]
 }

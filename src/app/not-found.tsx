@@ -28,14 +28,14 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <TopBar
         variant="home"
         logo={
           <Image width={146} height={32} alt="Logo" src="/logo-green.png" />
         }
         links={[
-          { label: "Home", href: "#" },
+          { label: "Home", href: "/" },
           { label: "Sobre", href: "#" },
         ]}
         actions={
@@ -57,10 +57,9 @@ export default function Home() {
           </>
         }
       />
-      <div className="bg-gradient-to-b from-green-from to-green-to px-4 py-8">
+      <div className="bg-gradient-to-b from-green-from to-green-to px-4 py-8 flex-1">
         <ModalForm isOpen={isFormModalOpen} onClose={handleFormModalClose} />
         <LoginForm isOpen={isLoginModalOpen} onClose={handleLoginModalClose} />
-
         <div className="mx-auto w-full px-8 py-8 max-w-2xl text-center">
           <p className="text-3xl font-bold">
             Ops! Não encontramos a página...{" "}
@@ -70,7 +69,6 @@ export default function Home() {
             <br />
             Que tal voltar e tentar novamente?
           </p>
-
           <Image
             width={946}
             height={708}
@@ -118,6 +116,6 @@ export default function Home() {
           },
         ]}
       />
-    </>
+    </div>
   );
 }

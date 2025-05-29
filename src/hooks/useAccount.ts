@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getDB } from '../lib/db';
 
-type Account = {
+export type Account = {
   id: string;
   name: string;
   balance: number;

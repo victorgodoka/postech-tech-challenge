@@ -1,6 +1,7 @@
 // lib/api.ts
 import { getDB } from './db';
 import { hashPassword, createSession } from "@/utils";
+import { populateDB } from './populate';
 import { v4 as uuid } from 'uuid';
 
 export type User = {
@@ -19,7 +20,11 @@ export async function createUser(user: User) {
   }
 
   const hashed = await hashPassword(user.password);
-  await db.put("users", { ...user, password: hashed, id: uuid() });
+  const accountId = 'e157be93-3ae6-4f13-997e-bae923f5b1ba';
+
+  await db.put("users", { ...user, password: hashed, id: accountId });
+  await db.put("accounts", { id: accountId, balance: 0, balanceVisible: true, type: "corrente", name: user.name, updatedAt: new Date().toISOString() });
+  await populateDB();
 }
 
 export async function getUserByEmail(email: string) {
@@ -37,4 +42,60 @@ export async function loginUser(email: string, password: string) {
   createSession(email, user.id!);
 
   return user;
+}
+
+async function updateAccountBalance(accountId: string) {
+  const db = await getDB();
+  // Get all transactions for this account
+  const allTransactions = await db.getAll('transactions');
+  const balance = allTransactions
+    .filter((tx: any) => tx.accountId === accountId)
+    .reduce((sum: number, tx: any) => sum + tx.value, 0);
+  const account = await db.get('accounts', accountId);
+  if (account) {
+    account.balance = balance;
+    account.updatedAt = new Date().toISOString();
+    await db.put('accounts', account);
+  }
+}
+
+export async function deleteTransactionById(id: string) {
+  const db = await getDB();
+  const transaction = await db.get('transactions', id);
+  await db.delete('transactions', id);
+  if (transaction && transaction.accountId) {
+    await updateAccountBalance(transaction.accountId);
+  }
+}
+
+export async function updateTransactionValueById(id: string, newValue: number) {
+  const db = await getDB();
+  const transaction = await db.get('transactions', id);
+  if (!transaction) throw new Error('Transaction not found');
+  transaction.value = newValue;
+  transaction.type = newValue < 0 ? 'Saque' : 'Depósito';
+  await db.put('transactions', transaction);
+  if (transaction.accountId) {
+    await updateAccountBalance(transaction.accountId);
+  }
+}
+
+export async function addTransaction(transaction: { accountId: string, type: string, value: number, date: string }) {
+  const db = await getDB();
+  const id = uuid();
+  await db.put('transactions', { ...transaction, id });
+  if (transaction.accountId) {
+    await updateAccountBalance(transaction.accountId);
+  }
+}
+
+export async function updateTransactionById(id: string, data: { accountId: string, type: string, value: number, date: string }) {
+  const db = await getDB();
+  const transaction = await db.get('transactions', id);
+  if (!transaction) throw new Error('Transaction not found');
+  const updatedTransaction = { ...transaction, ...data, id };
+  await db.put('transactions', updatedTransaction);
+  if (updatedTransaction.accountId) {
+    await updateAccountBalance(updatedTransaction.accountId);
+  }
 }

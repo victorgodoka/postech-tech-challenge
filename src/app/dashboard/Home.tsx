@@ -2,26 +2,21 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import clsx from "clsx";
 import Image from "next/image";
-import { useAccount } from "@/hooks/useAccount";
 import { Icon } from "@iconify/react";
-import { useServices } from "@/hooks/useService";
-import { useTransactions } from "@/hooks/useTransaction";
 import { TransactionCard } from "@/components/TransactionCard";
-import { useAuth } from "@/hooks/useSession";
-import "moment/locale/pt-br";
-moment.locale("pt-br");
+import { Account } from "@/hooks/useAccount";
+import { Services } from "@/hooks/useService";
+import { Transaction } from "@/hooks/useTransaction";
 
-const Home: React.FC = () => {
-  const { session } = useAuth();
-  const account = useAccount(session?.id || "");
-  const transactions = useTransactions(session?.id || "");
-  const services = useServices();
+interface AccountProps {
+  account: Account | null
+  services: Services[]
+  transactions: Transaction[]
+}
+
+const Home: React.FC<AccountProps> = ({ account, services, transactions }) => {
   const [toggleData, setToggleData] = useState(account?.balanceVisible);
 
-  useEffect(() => {}, []);
-  console.log(session?.id, "session");
-  console.log(account, "account");
-  console.log(transactions, "transactions");
   return (
     account && (
       <div className="flex flex-col xl:flex-row gap-4">
@@ -97,6 +92,7 @@ const Home: React.FC = () => {
             <p className="font-bold text-black text-xl mb-4">Extrato</p>
             {transactions &&
               transactions
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .slice(0, 10)
                 .map((transaction) => (
                   <TransactionCard key={transaction.id} {...transaction} />

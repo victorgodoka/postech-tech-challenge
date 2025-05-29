@@ -55,7 +55,6 @@ export const Input = ({
     };
     onChange?.(fakeEvent as React.ChangeEvent<HTMLInputElement>);
   };
-
   return (
     <div className="flex flex-col gap-1 w-full">
       <label htmlFor={id} className="text-sm font-semibold text-primary">

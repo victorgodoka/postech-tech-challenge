@@ -4,6 +4,7 @@ export const buttonVariants = {
   secondary: 'bg-green border-green text-white',
   black: 'bg-black border-black text-white',
   blackGhost: 'bg-transparent hover:bg-black border-black text-black hover:text-white',
+  greenGhost: 'bg-transparent hover:bg-green border-green text-green hover:text-white',
   secondaryGhost: 'bg-transparent hover:bg-green border-green text-green hover:text-white',
   error: 'bg-error border-error text-white',
   red: 'bg-red border-red text-white',

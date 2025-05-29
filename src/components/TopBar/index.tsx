@@ -15,7 +15,7 @@ export const TopBar = ({
   variant = "home",
   logo,
   links = [],
-  actions = [],
+  actions,
 }: TopBarProps) => {
   return (
     <header className={`w-full px-6 py-4 ${topbarVariants[variant]}`}>

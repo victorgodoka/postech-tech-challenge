@@ -37,7 +37,7 @@ export default function Home() {
         }
         links={[
           { label: "Home", href: "#" },
-          { label: "Sobre", href: "#" },
+          { label: "Sobre", href: "/oijio" },
         ]}
         actions={
           <>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getDB } from '../lib/db';
 
-type Transaction = {
+export type Transaction = {
   id: string;
   accountId: string;
   type: string;

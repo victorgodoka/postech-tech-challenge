@@ -4,5 +4,6 @@ export type ButtonsVariant =
   | "error"
   | "blackGhost"
   | "secondaryGhost"
+  | "greenGhost"
   | "black"
   | "red"

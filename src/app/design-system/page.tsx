@@ -131,25 +131,21 @@ export default function DesignSystemPage() {
         <div className="grid gap-4 max-w-md mt-4">
           <div className="grid gap-4 max-w-md">
             <TransactionCard
-              transaction="Depósito"
               date="2022-11-18"
               value={15000}
               type="entrada"
             />
             <TransactionCard
-              transaction="DOC/TED"
               date="2023-01-10"
               value={30000}
               type="saida"
             />
             <TransactionCard
-              transaction="Câmbio de Moeda"
               date="2023-02-05"
               value={40000}
               type="entrada"
             />
             <TransactionCard
-              transaction="Pix"
               date="2023-03-01"
               value={100000}
               type="saida"
