@@ -21,7 +21,9 @@ const meta: Meta<typeof Input> = {
 export default meta;
 type Story = StoryObj<typeof Input>;
 
-function ControlledTemplate(args: any) {
+type InputProps = React.ComponentProps<typeof Input>;
+
+function ControlledTemplate(args: InputProps) {
   const [value, setValue] = useState(args.value || '');
   return React.createElement(Input, {
     ...args,

@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import NewTransactionForm from './index';
-import React from 'react';
 
 const meta: Meta<typeof NewTransactionForm> = {
   title: 'Components/NewTransactionForm',

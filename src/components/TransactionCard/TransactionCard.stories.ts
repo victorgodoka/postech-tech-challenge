@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { TransactionCard } from './index';
-import React from 'react';
 
 const meta: Meta<typeof TransactionCard> = {
   title: 'Components/TransactionCard',

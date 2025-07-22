@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { LoginForm } from './index';
-import React, { useState } from 'react';
 
 const meta: Meta<typeof LoginForm> = {
   title: 'Components/LoginForm',

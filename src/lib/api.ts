@@ -44,13 +44,15 @@ export async function loginUser(email: string, password: string) {
   return user;
 }
 
+type Transaction = { accountId: string; value: number; type: string; date: string };
+
 async function updateAccountBalance(accountId: string) {
   const db = await getDB();
   // Get all transactions for this account
   const allTransactions = await db.getAll('transactions');
   const balance = allTransactions
-    .filter((tx: any) => tx.accountId === accountId)
-    .reduce((sum: number, tx: any) => sum + tx.value, 0);
+    .filter((tx: Transaction) => tx.accountId === accountId)
+    .reduce((sum: number, tx: Transaction) => sum + tx.value, 0);
   const account = await db.get('accounts', accountId);
   if (account) {
     account.balance = balance;

@@ -1,10 +1,10 @@
 "use client";
 import { TopBar } from "@/components/TopBar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Tabs, Tab } from "@/components/Tabs";
 import Image from "next/image";
 import Home from "./Home";
-import { populateDB } from "@/lib/populate";
+
 import { useAuth } from "@/hooks/useSession";
 import { Account, useAccount } from "@/hooks/useAccount";
 import { Transaction, useTransactions } from "@/hooks/useTransaction";

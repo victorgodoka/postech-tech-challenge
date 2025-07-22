@@ -1,12 +1,7 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from "eslint-plugin-storybook";
-
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const storybook = require("eslint-plugin-storybook");
+const { FlatCompat } = require("@eslint/eslintrc");
+const path = require("path");
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -19,4 +14,4 @@ const eslintConfig = [
   ...storybook.configs["flat/recommended"]
 ];
 
-export default eslintConfig;
+module.exports = eslintConfig;

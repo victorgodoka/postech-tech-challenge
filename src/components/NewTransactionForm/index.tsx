@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addTransaction, updateTransactionValueById, updateTransactionById } from "@/lib/api";
+import { addTransaction, updateTransactionById } from "@/lib/api";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 import moment from "moment";
@@ -74,7 +74,7 @@ const NewTransactionForm = ({
       onClose();
       if (onSubmit) await onSubmit({ accountId, type, value: valueInCents, date });
       window.location.reload();
-    } catch (err) {
+    } catch {
       setError("Erro ao registrar transação.");
     } finally {
       setLoading(false);

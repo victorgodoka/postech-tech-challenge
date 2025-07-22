@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { FieldError } from './index';
-import React from 'react';
 
 const meta: Meta<typeof FieldError> = {
   title: 'Components/FieldError',

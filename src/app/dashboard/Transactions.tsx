@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TransactionCard } from "@/components/TransactionCard";
 import { Transaction } from "@/hooks/useTransaction";
-import { deleteTransactionById, updateTransactionValueById, updateTransactionById } from "@/lib/api";
+import { deleteTransactionById, updateTransactionById } from "@/lib/api";
 import { Button } from "@/components/Button";
 import NewTransactionForm from "@/components/NewTransactionForm";
 
