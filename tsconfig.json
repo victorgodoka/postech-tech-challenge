@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,11 +22,19 @@
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.cjs", "**/*.tsx", ".next/types/**/*.ts", "src/components/ConsentCheckbox", "eslint.config.js", "postcss.config.js"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.cjs",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/components/ConsentCheckbox",
+    "eslint.config.js",
+    "apps/dashboard/postcss.config.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
