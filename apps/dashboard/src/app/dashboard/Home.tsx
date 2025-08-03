@@ -4,6 +4,8 @@ import clsx from "clsx";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { TransactionCard } from "@/components/TransactionCard";
+import { Accordion } from "@/components/Accordion";
+import { MonthlySpendingTrend, TransactionTypeDistribution, CashFlowChart } from "@/components/Charts";
 import { Account } from "@/hooks/useAccount";
 import { Services } from "@/hooks/useService";
 import { Transaction } from "@/hooks/useTransaction";
@@ -87,16 +89,56 @@ const Home: React.FC<AccountProps> = ({ account, services, transactions }) => {
           </div>
         </div>
 
-        <div className="flex-1">
-          <div className="rounded-md bg-white p-4 text-black">
-            <p className="font-bold text-black text-xl mb-4">Extrato</p>
-            {transactions &&
-              transactions
-                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                .slice(0, 10)
-                .map((transaction) => (
-                  <TransactionCard key={transaction.id} {...transaction} />
-                ))}
+        {/* Charts Section */}
+        <div className="col-span-1 lg:col-span-2 xl:col-span-3">
+          <div className="rounded-md bg-white p-4 text-black mb-6">
+            <Accordion
+              items={[
+                {
+                  id: 'graficos',
+                  title: 'Gráficos Financeiros',
+                  content: (
+                    <div className="flex flex-col gap-4">
+                      <MonthlySpendingTrend transactions={transactions || []} />
+                      <TransactionTypeDistribution transactions={transactions || []} />
+                      <CashFlowChart transactions={transactions || []} />
+                    </div>
+                  ),
+                },
+              ]}
+              defaultOpenItems={[]}
+              className="bg-transparent"
+            />
+          </div>
+          <div className="flex-1">
+            <div className="rounded-md bg-white p-4 text-black">
+              <Accordion
+                items={[
+                  {
+                    id: 'extrato',
+                    title: 'Extrato',
+                    content: (
+                      <div className="space-y-2">
+                        {transactions &&
+                          transactions
+                            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                            .slice(0, 10)
+                            .map((transaction) => (
+                              <TransactionCard key={transaction.id} {...transaction} />
+                            ))}
+                        {(!transactions || transactions.length === 0) && (
+                          <p className="text-gray-500 text-center py-4">
+                            Nenhuma transação encontrada
+                          </p>
+                        )}
+                      </div>
+                    ),
+                  },
+                ]}
+                defaultOpenItems={[]}
+                className="bg-transparent"
+              />
+            </div>
           </div>
         </div>
       </div>

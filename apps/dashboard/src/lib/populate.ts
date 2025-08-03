@@ -5,10 +5,9 @@ export const populateDB = async () => {
   const db = await getDB();
   const accountId = 'e157be93-3ae6-4f13-997e-bae923f5b1ba';
 
-  const transactions = Array.from({ length: 100 }, () => {
-    // Generate a random date between 2025-05-01 and 2025-05-20
-    const start = new Date('2025-05-01').getTime();
-    const end = new Date('2025-05-20').getTime();
+  const transactions = Array.from({ length: 10000 }, () => {
+    const start = new Date('2025-01-01').getTime();
+    const end = new Date('2025-08-03').getTime();
     const randomDate = new Date(start + Math.random() * (end - start));
     const formattedDate = randomDate.toISOString().slice(0, 10);
     const negativeOrPositive = Math.random() < 0.5 ? -1 : 1;
@@ -16,7 +15,7 @@ export const populateDB = async () => {
       id: uuid(),
       accountId,
       type: negativeOrPositive === 1 ? 'Depósito' : 'Saque',
-      value: Math.random() * 10000 * negativeOrPositive,
+      value: Math.random() * 1000 * negativeOrPositive,
       date: formattedDate,
     };
   });
