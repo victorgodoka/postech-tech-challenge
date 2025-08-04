@@ -1,0 +1,77 @@
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import type { RootState } from '@/store/index';
+import { 
+  fetchAccount, 
+  fetchAllAccounts, 
+  updateAccount,
+  updateAccountBalance,
+  toggleBalanceVisibility,
+  clearError 
+} from '@/store/slices/accountSlice';
+import type { Account } from '@/store/slices/accountSlice';
+
+export const useAccount = (accountId: string) => {
+  const dispatch = useAppDispatch();
+  const { accounts, loading, error } = useAppSelector((state: RootState) => state.accounts);
+  
+  const account = accounts[accountId] || null;
+
+  useEffect(() => {
+    if (accountId && !accounts[accountId]) {
+      dispatch(fetchAccount(accountId));
+    }
+  }, [dispatch, accountId, accounts]);
+
+  const updateAccountData = async (id: string, data: Partial<Account>) => {
+    return dispatch(updateAccount({ id, data }));
+  };
+
+  const updateBalance = (id: string, balance: number) => {
+    dispatch(updateAccountBalance({ id, balance }));
+  };
+
+  const toggleVisibility = (accountId: string) => {
+    dispatch(toggleBalanceVisibility(accountId));
+  };
+
+  const clearAccountError = () => {
+    dispatch(clearError());
+  };
+
+  const refetchAccount = () => {
+    if (accountId) {
+      dispatch(fetchAccount(accountId));
+    }
+  };
+
+  return {
+    account,
+    loading,
+    error,
+    updateAccount: updateAccountData,
+    updateBalance,
+    toggleVisibility,
+    clearError: clearAccountError,
+    refetch: refetchAccount,
+  };
+};
+
+export const useAccounts = () => {
+  const dispatch = useAppDispatch();
+  const { accounts, loading, error } = useAppSelector((state: RootState) => state.accounts);
+
+  useEffect(() => {
+    dispatch(fetchAllAccounts());
+  }, [dispatch]);
+
+  const accountsList = Object.values(accounts);
+
+  return {
+    accounts: accountsList,
+    accountsMap: accounts,
+    loading,
+    error,
+    refetch: () => dispatch(fetchAllAccounts()),
+  };
+};

@@ -5,9 +5,8 @@ import { Tabs, Tab } from "@/components/Tabs";
 import Image from "next/image";
 import Home from "./Home";
 
-import { useAuth } from "@/hooks/useSession";
-import { Account, useAccount } from "@/hooks/useAccount";
-import { Transaction, useTransactions } from "@/hooks/useTransaction";
+import { useAuth } from "@/hooks/redux/useAuth";
+import { useAccount } from "@/hooks/redux/useAccount";
 import { Services, useServices } from "@/hooks/useService";
 import moment from "moment";
 import "moment/locale/pt-br";
@@ -16,8 +15,7 @@ moment.locale("pt-br");
 
 function Dashboard() {
   const { session } = useAuth();
-  const account: Account | null = useAccount(session?.id || "");
-  const transactions: Transaction[] = useTransactions(session?.id || "");
+  const { account } = useAccount(session?.id || "");
   const services: Services[] = useServices();
   const [active, setActive] = useState(0);
 
@@ -34,13 +32,13 @@ function Dashboard() {
           <Tab>
             <Tab.Title>Início</Tab.Title>
             <Tab.Container>
-              <Home account={account} transactions={transactions} services={services} />
+              <Home account={account} services={services} />
             </Tab.Container>
           </Tab>
           <Tab>
             <Tab.Title>Transferências</Tab.Title>
             <Tab.Container>
-              <Transactions transactions={transactions} />
+              <Transactions accountId={session?.id || ""} />
             </Tab.Container>
           </Tab>
           <Tab>

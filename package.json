@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@originjs/vite-plugin-federation": "^1.4.1",
+    "@reduxjs/toolkit": "^2.8.2",
     "@swc-node/register": "^1.10.10",
     "@swc/core": "^1.13.1",
     "D": "^1.0.0",
@@ -29,6 +30,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-number-format": "^5.4.3",
+    "react-redux": "^9.2.0",
     "react-toastify": "^11.0.5",
     "tailwindcss-animated": "^2.0.0",
     "uninstall": "^0.0.0",

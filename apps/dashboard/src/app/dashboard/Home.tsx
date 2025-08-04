@@ -6,17 +6,20 @@ import { Icon } from "@iconify/react";
 import { TransactionCard } from "@/components/TransactionCard";
 import { Accordion } from "@/components/Accordion";
 import { MonthlySpendingTrend, TransactionTypeDistribution, CashFlowChart } from "@/components/Charts";
-import { Account } from "@/hooks/useAccount";
+import { useTransactions } from "@/hooks/redux/useTransactions";
+import { useAuth } from "@/hooks/redux/useAuth";
 import { Services } from "@/hooks/useService";
-import { Transaction } from "@/hooks/useTransaction";
+import type { Account } from "@/store/slices/accountSlice";
+import type { Transaction } from "@/store/slices/transactionSlice";
 
 interface AccountProps {
   account: Account | null
   services: Services[]
-  transactions: Transaction[]
 }
 
-const Home: React.FC<AccountProps> = ({ account, services, transactions }) => {
+const Home: React.FC<AccountProps> = ({ account, services }) => {
+  const { session } = useAuth();
+  const { transactions } = useTransactions(session?.id || "");
   const [toggleData, setToggleData] = useState(account?.balanceVisible);
 
   return (
@@ -121,9 +124,9 @@ const Home: React.FC<AccountProps> = ({ account, services, transactions }) => {
                       <div className="space-y-2">
                         {transactions &&
                           transactions
-                            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                            .sort((a: Transaction, b: Transaction) => new Date(b.date).getTime() - new Date(a.date).getTime())
                             .slice(0, 10)
-                            .map((transaction) => (
+                            .map((transaction: Transaction) => (
                               <TransactionCard key={transaction.id} {...transaction} />
                             ))}
                         {(!transactions || transactions.length === 0) && (

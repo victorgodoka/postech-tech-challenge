@@ -1,7 +1,7 @@
 "use client";
 import { Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
-import { AuthProvider } from "@/context/AuthContext";
+import { ReduxProvider } from "@/store/provider";
 import "./globals.css";
 
 const geistSans = Inter({
@@ -16,12 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AuthProvider>
+      <ReduxProvider>
         <body className={`${geistSans.variable} antialiased`}>
           <ToastContainer />
           {children}
         </body>
-      </AuthProvider>
+      </ReduxProvider>
     </html>
   );
 }
