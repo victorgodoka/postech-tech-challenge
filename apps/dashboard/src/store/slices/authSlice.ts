@@ -2,12 +2,16 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { Session, getSession, createSession, clearSession as destroySession } from '@/utils';
 import { loginUser } from '@/lib/api';
 import { setSessionCookie, removeSessionCookie } from '@/utils';
+import { authService, User } from '../../../../../packages/shared/auth/AuthService';
+import { eventBus } from '../../../../../packages/shared/events/EventBus';
 
 interface AuthState {
   session: Session | null;
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
+  user: User | null;
+  token: string | null;
 }
 
 const initialState: AuthState = {
@@ -15,6 +19,8 @@ const initialState: AuthState = {
   isAuthenticated: false,
   loading: true,
   error: null,
+  user: null,
+  token: null,
 };
 
 // Async thunks

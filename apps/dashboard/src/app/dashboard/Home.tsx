@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { TransactionCard } from "@/components/TransactionCard";
 import { Accordion } from "@/components/Accordion";
-import { MonthlySpendingTrend, TransactionTypeDistribution, CashFlowChart } from "@/components/Charts";
+import { MonthlySpendingTrend, TransactionTypeDistribution, CashFlowChart, CategoryAnalysisChart, FinancialGoalsWidget, PerformanceMetrics } from "@/components/Charts";
 import { useTransactions } from "@/hooks/redux/useTransactions";
 import { useAuth } from "@/hooks/redux/useAuth";
 import { Services } from "@/hooks/useService";
@@ -90,29 +90,7 @@ const Home: React.FC<AccountProps> = ({ account, services }) => {
               </div>
             )}
           </div>
-        </div>
-
-        {/* Charts Section */}
-        <div className="col-span-1 lg:col-span-2 xl:col-span-3">
-          <div className="rounded-md bg-white p-4 text-black mb-6">
-            <Accordion
-              items={[
-                {
-                  id: 'graficos',
-                  title: 'Gráficos Financeiros',
-                  content: (
-                    <div className="flex flex-col gap-4">
-                      <MonthlySpendingTrend transactions={transactions || []} />
-                      <TransactionTypeDistribution transactions={transactions || []} />
-                      <CashFlowChart transactions={transactions || []} />
-                    </div>
-                  ),
-                },
-              ]}
-              defaultOpenItems={[]}
-              className="bg-transparent"
-            />
-          </div>
+          
           <div className="flex-1">
             <div className="rounded-md bg-white p-4 text-black">
               <Accordion
@@ -141,6 +119,30 @@ const Home: React.FC<AccountProps> = ({ account, services }) => {
                 defaultOpenItems={[]}
                 className="bg-transparent"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Charts Section */}
+        <div className="col-span-1 lg:col-span-2 xl:col-span-3">
+          <div className="rounded-md bg-white p-4 text-black mb-6">
+            <div className="space-y-6">
+              {/* Performance Metrics - Visão Geral */}
+              <PerformanceMetrics transactions={transactions || []} />
+
+              {/* Financial Goals Widget - Requisito Plus */}
+              <FinancialGoalsWidget transactions={transactions || []} />
+
+              {/* Gráficos Existentes Melhorados */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <MonthlySpendingTrend transactions={transactions || []} />
+                <TransactionTypeDistribution transactions={transactions || []} />
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <CashFlowChart transactions={transactions || []} />
+                <CategoryAnalysisChart transactions={transactions || []} />
+              </div>
             </div>
           </div>
         </div>

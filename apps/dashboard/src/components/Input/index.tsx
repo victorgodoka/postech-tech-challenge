@@ -2,32 +2,28 @@ import React from "react";
 import { inputVariants } from "./inputVariants";
 import { FieldError } from "@/components/FieldError";
 
-type InputProps = {
-  id: string;
+// Props customizadas específicas do nosso componente
+type CustomInputProps = {
   label: string;
-  type?: string;
-  placeholder?: string;
-  value?: string | number;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
-  disabled?: boolean;
   prefix?: string;
   variant?: keyof typeof inputVariants;
-};
+  ref?: React.RefObject<HTMLInputElement | null>;
+};  
+
+// Combinar props nativas do input com nossas props customizadas
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & CustomInputProps;
 
 export const Input = ({
-  id,
   label,
-  type = "text",
-  placeholder,
-  value = "",
-  onChange,
-  onBlur,
   error,
-  disabled = false,
   prefix,
   variant = "default",
+  type = "text",
+  value = "",
+  disabled = false,
+  ref,
+  ...inputProps
 }: InputProps) => {
   const baseStyle = [
     inputVariants.base,
@@ -40,38 +36,46 @@ export const Input = ({
 
   const formatCurrency = (val: string) => {
     if (!val) return "";
-    const num = parseInt(val.replace(/\D/g, "")) || 0;
+    // Garantir que sempre temos pelo menos 2 dígitos para centavos
+    const cleanVal = val.replace(/\D/g, "");
+    if (!cleanVal) return "";
+    const num = parseInt(cleanVal) || 0;
     return `R$ ${(num / 100).toFixed(2).replace(".", ",")}`;
   };
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.replace(/\D/g, "").replace(/^0+/, "");
+    // Remover tudo que não é dígito
+    const raw = e.target.value.replace(/\D/g, "");
+    
+    // Não remover zeros à esquerda se o valor for muito pequeno
+    // Manter pelo menos 1 dígito
+    const cleanValue = raw || "0";
+    
     const fakeEvent = {
       ...e,
       target: {
         ...e.target,
-        value: raw,
+        value: cleanValue,
       },
     };
-    onChange?.(fakeEvent as React.ChangeEvent<HTMLInputElement>);
+    inputProps.onChange?.(fakeEvent as React.ChangeEvent<HTMLInputElement>);
   };
   return (
     <div className="flex flex-col gap-1 w-full">
-      <label htmlFor={id} className="text-sm font-semibold text-primary">
+      <label htmlFor={inputProps.id} className="text-sm font-semibold text-primary">
         {label}
       </label>
 
       {type === "currency" ? (
         <input
-          id={id}
+          {...inputProps}
           type="tel"
           inputMode="numeric"
           value={formatCurrency(String(value))}
           onChange={handleCurrencyChange}
-          onBlur={onBlur}
           disabled={disabled}
-          placeholder={placeholder}
           className={baseStyle}
+          ref={ref}
         />
       ) : (
         <div className="relative w-full">
@@ -81,14 +85,12 @@ export const Input = ({
             </span>
           )}
           <input
-            id={id}
+            {...inputProps}
             type={type === "number" ? "text" : type}
-            placeholder={placeholder}
             value={value}
-            onChange={onChange}
-            onBlur={onBlur}
             disabled={disabled}
             className={`${baseStyle} ${prefix ? "pl-10" : ""}`}
+            ref={ref}
           />
         </div>
       )}

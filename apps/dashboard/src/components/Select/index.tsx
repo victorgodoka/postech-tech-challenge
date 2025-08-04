@@ -31,7 +31,7 @@ export const Select = ({
   const selectedOption = options.find((opt) => opt.value === value);
 
   return (
-    <div className="flex flex-col gap-1 relative w-full max-w-sm">
+    <div className="flex flex-col gap-1 relative w-full">
       <label className="text-sm font-semibold text-primary">{label}</label>
 
       <button

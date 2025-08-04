@@ -8,6 +8,7 @@ export type Transaction = {
   type: string;
   value: number;
   date: string;
+  category?: string;
 };
 
 interface TransactionState {
