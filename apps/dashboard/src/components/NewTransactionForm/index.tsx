@@ -4,6 +4,9 @@ import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 import { Icon } from '@iconify/react';
 import moment from "moment";
+import { FileSelector } from '../FileSelector';
+import { AttachmentViewer } from '../AttachmentViewer';
+import { attachmentsService } from '@/services/attachmentsService';
 
 const today = moment().format("YYYY-MM-DD");
 
@@ -57,6 +60,7 @@ const NewTransactionForm = ({
   const [description, setDescription] = useState(transaction?.description || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
   // Atualizar valores quando a transação mudar (para edição)
   useEffect(() => {
@@ -75,6 +79,7 @@ const NewTransactionForm = ({
       setDescription('');
     }
     setError(""); // Limpar erros ao trocar de transação
+    setUploadedFiles([]); // Limpar arquivos ao trocar de transação
   }, [transaction]);
 
   if (!isOpen) return null;
@@ -122,12 +127,34 @@ const NewTransactionForm = ({
     };
 
     try {
+      let transactionId: string;
+      
       if (transaction && transaction.id) {
         // Editando transação existente
         await updateTransactionById(transaction.id, transactionData);
+        transactionId = transaction.id;
       } else {
         // Criando nova transação
-        await addTransaction(transactionData);
+        transactionId = `transaction_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        await addTransaction({ ...transactionData, id: transactionId });
+      }
+
+      // Upload de anexos se houver arquivos
+      if (uploadedFiles.length > 0) {
+        try {
+          await Promise.all(
+            uploadedFiles.map(file => 
+              attachmentsService.uploadAttachment({
+                file,
+                transactionId,
+                description: `Anexo da transação: ${description.trim()}`
+              })
+            )
+          );
+        } catch (uploadError) {
+          console.error('Erro ao fazer upload dos anexos:', uploadError);
+          // Continua mesmo se o upload falhar
+        }
       }
 
       // Resetar formulário
@@ -136,12 +163,13 @@ const NewTransactionForm = ({
       setDate(today);
       setCategory('Outros');
       setDescription('');
+      setUploadedFiles([]);
       onClose();
 
       if (onSubmit) {
         await onSubmit({
           ...transactionData,
-          id: transaction?.id
+          id: transactionId
         });
       }
 
@@ -237,6 +265,50 @@ const NewTransactionForm = ({
             />
             <div className="text-xs text-gray-500 mt-1">
               {description.length}/200 caracteres
+            </div>
+          </div>
+
+          {/* Anexos */}
+          <div className="space-y-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Anexos
+            </label>
+            
+            {/* Anexos existentes (apenas na edição) */}
+            {transaction?.id && (
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-gray-600">Anexos existentes</h4>
+                <AttachmentViewer 
+                  transactionId={transaction.id}
+                  className="bg-gray-50 rounded-lg p-3"
+                />
+              </div>
+            )}
+            
+            {/* Novos anexos */}
+            <div className="space-y-2">
+              <h4 className="text-sm font-medium text-gray-600">
+                {transaction?.id ? 'Adicionar novos anexos' : 'Anexos (opcional)'}
+              </h4>
+              <FileSelector
+                onFilesSelected={setUploadedFiles}
+                maxFiles={5}
+                maxSizePerFile={10 * 1024 * 1024} // 10MB
+                acceptedTypes={[
+                  'image/jpeg',
+                  'image/png',
+                  'image/gif',
+                  'application/pdf',
+                  'text/plain',
+                  'application/msword',
+                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                ]}
+              />
+              {uploadedFiles.length > 0 && (
+                <p className="text-xs text-gray-500">
+                  {uploadedFiles.length} novo(s) arquivo(s) selecionado(s)
+                </p>
+              )}
             </div>
           </div>
 

@@ -1,7 +1,9 @@
+import React, { useState } from 'react';
 import { Icon } from "@iconify/react/dist/iconify.js";
 import clsx from "clsx";
 import moment from "moment";
 moment.locale("pt-BR");
+import { AttachmentViewer } from '../AttachmentViewer';
 
 // Mapeamento de categorias com ícones e cores
 const CATEGORY_CONFIG = {
@@ -41,6 +43,8 @@ export const TransactionCard = ({
   deleteTransaction,
   editTransaction,
 }: TransactionCardProps) => {
+  const [showAttachments, setShowAttachments] = useState(false);
+
   const formattedValue = new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
@@ -136,6 +140,35 @@ export const TransactionCard = ({
           </div>
         )}
       </div>
+
+      {/* Seção de Anexos */}
+      {id && (
+        <div className="border-t border-gray-100 pt-3">
+          <button
+            onClick={() => setShowAttachments(!showAttachments)}
+            className="flex items-center space-x-2 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+          >
+            <Icon 
+              icon="mdi:attachment" 
+              className="w-4 h-4" 
+            />
+            <span>Anexos</span>
+            <Icon 
+              icon={showAttachments ? "mdi:chevron-up" : "mdi:chevron-down"} 
+              className="w-4 h-4" 
+            />
+          </button>
+          
+          {showAttachments && (
+            <div className="mt-3">
+              <AttachmentViewer 
+                transactionId={id}
+                className="bg-gray-50 rounded-lg p-3"
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

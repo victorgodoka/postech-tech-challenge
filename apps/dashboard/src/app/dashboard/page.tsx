@@ -2,6 +2,7 @@
 import { TopBar } from "@/components/TopBar";
 import { useState } from "react";
 import { Tabs, Tab } from "@/components/Tabs";
+import { InvestmentsComingSoon, OtherServicesComingSoon } from "@/components/ComingSoon";
 import Image from "next/image";
 import Home from "./Home";
 
@@ -43,11 +44,15 @@ function Dashboard() {
           </Tab>
           <Tab>
             <Tab.Title>Investimentos</Tab.Title>
-            <Tab.Container>Resumo geral</Tab.Container>
+            <Tab.Container>
+              <InvestmentsComingSoon />
+            </Tab.Container>
           </Tab>
           <Tab>
             <Tab.Title>Outros serviços</Tab.Title>
-            <Tab.Container>Resumo geral</Tab.Container>
+            <Tab.Container>
+              <OtherServicesComingSoon />
+            </Tab.Container>
           </Tab>
         </Tabs>
       </div>

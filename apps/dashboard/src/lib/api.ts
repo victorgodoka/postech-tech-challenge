@@ -82,13 +82,14 @@ export async function updateTransactionValueById(id: string, newValue: number) {
   }
 }
 
-export async function addTransaction(transaction: { accountId: string, type: string, value: number, date: string }) {
+export async function addTransaction(transaction: { accountId: string, type: string, value: number, date: string, category?: string, description?: string, id?: string }) {
   const db = await getDB();
-  const id = uuid();
+  const id = transaction.id || uuid();
   await db.put('transactions', { ...transaction, id });
   if (transaction.accountId) {
     await updateAccountBalance(transaction.accountId);
   }
+  return { ...transaction, id };
 }
 
 export async function updateTransactionById(id: string, data: { accountId: string, type: string, value: number, date: string }) {
