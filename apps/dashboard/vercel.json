@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "name": "postech-tech-challenge-dashboard",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
