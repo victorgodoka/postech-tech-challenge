@@ -123,7 +123,7 @@ const Home: React.FC<AccountProps> = ({ account, services }) => {
                     content: (
                       <div className="space-y-2">
                         {transactions &&
-                          transactions
+                          [...transactions]
                             .sort((a: Transaction, b: Transaction) => new Date(b.date).getTime() - new Date(a.date).getTime())
                             .slice(0, 10)
                             .map((transaction: Transaction) => (

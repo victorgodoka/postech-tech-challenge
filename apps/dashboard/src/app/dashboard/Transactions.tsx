@@ -13,7 +13,7 @@ const Transactions: React.FC<{ accountId: string }> = ({ accountId }) => {
 
   // Sort transactions by date (newest first) and calculate visible items
   const sortedTransactions = useMemo(() => {
-    return transactions
+    return [...transactions]
       .sort((a: Transaction, b: Transaction) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [transactions]);
 

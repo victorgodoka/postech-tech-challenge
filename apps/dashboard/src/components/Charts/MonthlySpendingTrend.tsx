@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { Transaction } from '@/hooks/useTransaction';
+import type { Transaction } from '@/store/slices/transactionSlice';
 import moment from 'moment';
 
 interface MonthlySpendingTrendProps {

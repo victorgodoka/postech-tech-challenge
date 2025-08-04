@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getSession, Session } from "@/utils";
-import { useAuthContext } from "@/context/AuthContext";
+import { useAuth as useReduxAuth } from "@/hooks/redux/useAuth";
 import { useRouter } from "next/router";
 
 export function useSession(redirectTo = "/") {
@@ -22,7 +22,7 @@ export function useSession(redirectTo = "/") {
 }
 
 export const useAuth = () => {
-  const { session, isAuthenticated, login, logout, loading } = useAuthContext();
+  const { session, isAuthenticated, login, logout, loading } = useReduxAuth();
   return { session, isAuthenticated, login, logout, loading };
 };
 
