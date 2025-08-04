@@ -56,7 +56,10 @@ export function clearSession() {
 
 export function setSessionCookie(session: Session) {
   const encoded = btoa(JSON.stringify(session));
-  document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Lax`;
+  // Enhanced security: HttpOnly, Secure, SameSite=Strict
+  const isProduction = process.env.NODE_ENV === 'production';
+  const secureFlag = isProduction ? 'Secure; ' : '';
+  document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Strict; ${secureFlag}HttpOnly`;
 }
 
 export function removeSessionCookie() {

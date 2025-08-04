@@ -1,27 +1,35 @@
-"use client";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { ToastContainer } from "react-toastify";
-import { ReduxProvider } from "@/store/provider";
 import "./globals.css";
+import { ClientProviders } from "./providers";
+import "react-toastify/dist/ReactToastify.css";
 
-const geistSans = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Banking Dashboard - Postech Tech Challenge",
+  description: "Modern banking dashboard with Redux Toolkit and microfrontends",
+  keywords: "banking, dashboard, react, redux, microfrontends",
+  authors: [{ name: "Postech Team" }],
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <ReduxProvider>
-        <body className={`${geistSans.variable} antialiased`}>
-          <ToastContainer />
+    <html lang="pt-BR">
+      <body className={inter.className}>
+        <ClientProviders>
           {children}
-        </body>
-      </ReduxProvider>
+        </ClientProviders>
+      </body>
     </html>
   );
 }
