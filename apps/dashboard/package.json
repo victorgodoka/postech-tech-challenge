@@ -27,9 +27,7 @@
     "uuid": "^11.1.0",
     "webpack": "^5.101.0",
     "eslint": "^9.32.0",
-    "eslint-config-next": "^15.2.4"
-  },
-  "devDependencies": {
+    "eslint-config-next": "^15.2.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/uuid": "^10",
