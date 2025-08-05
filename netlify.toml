@@ -1,0 +1,14 @@
+[build]
+  base = "apps/dashboard"
+  publish = "apps/dashboard/.next"
+  command = "cd apps/dashboard && npm run build"
+
+[build.environment]
+  NODE_ENV = "production"
+  NEXT_PUBLIC_HOME_URL = "https://postech-home.netlify.app"
+  NEXT_PUBLIC_DASHBOARD_URL = "https://postech-tech-challenge.netlify.app"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

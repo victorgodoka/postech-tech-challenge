@@ -1,13 +1,13 @@
 {
   "version": 2,
   "name": "postech-tech-challenge-dashboard",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "NEXT_PUBLIC_HOME_URL": "https://postech-home.vercel.app",
+    "NEXT_PUBLIC_DASHBOARD_URL": "https://postech-tech-challenge-dashboard.vercel.app"
   }
 }
