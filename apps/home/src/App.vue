@@ -6,7 +6,6 @@ import Button from './components/Button/Button.vue';
 import Footer from './components/Footer.vue';
 import { useAuth } from './composables/useAuth';
 
-// Estado global para modais
 const showLoginModal = ref(false);
 const showRegisterModal = ref(false);
 
