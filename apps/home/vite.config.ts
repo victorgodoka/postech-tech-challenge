@@ -41,7 +41,7 @@ export default defineConfig(() => ({
     }),
   ],
   build: {
-    outDir: '../../dist',
+    outDir: '/dist',
     emptyOutDir: true,
     reportCompressedSize: true,
     target: 'esnext',
