@@ -111,7 +111,7 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
 
     // Ordenação
     filtered.sort((a, b) => {
-      let aValue: any, bValue: any;
+      let aValue: string | number, bValue: string | number;
       
       switch (filterOptions.sortBy) {
         case 'date':
@@ -279,7 +279,7 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
           <div className="flex items-center space-x-2 text-sm text-blue-700">
             <Icon icon="mdi:information" className="w-4 h-4" />
             <span>
-              Filtros ativos: {Object.entries(filters).filter(([key, value]) => 
+              Filtros ativos: {Object.entries(filters).filter(([_key, value]) => 
                 value !== '' && value !== 'all' && value !== 'date' && value !== 'desc'
               ).length}
             </span>

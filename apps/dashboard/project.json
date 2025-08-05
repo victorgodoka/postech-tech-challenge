@@ -1,0 +1,52 @@
+{
+  "name": "dashboard",
+  "sourceRoot": "src",
+  "projectType": "application",
+  "tags": ["scope:dashboard", "type:app"],
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{projectRoot}/.next"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/dashboard"
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:dev",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "dashboard:build",
+        "dev": true,
+        "port": 3000
+      }
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "dashboard:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{projectRoot}/coverage"],
+      "options": {
+        "jestConfig": "jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverageReporters": ["text"]
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["src/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

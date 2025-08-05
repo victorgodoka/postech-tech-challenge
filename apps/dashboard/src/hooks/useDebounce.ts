@@ -24,7 +24,7 @@ export function useDebounce<T>(value: T, delay: number): T {
  * Hook para debounce de callbacks
  * Útil para funções que devem ser executadas apenas após um período de inatividade
  */
-export function useDebouncedCallback<T extends (...args: any[]) => any>(
+export function useDebouncedCallback<T extends (...args: unknown[]) => unknown>(
   callback: T,
   delay: number
 ): T {
@@ -59,7 +59,7 @@ export function useDebouncedCallback<T extends (...args: any[]) => any>(
  * Hook para throttle de callbacks
  * Útil para eventos que disparam frequentemente (scroll, resize)
  */
-export function useThrottledCallback<T extends (...args: any[]) => any>(
+export function useThrottledCallback<T extends (...args: unknown[]) => unknown>(
   callback: T,
   delay: number
 ): T {

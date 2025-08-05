@@ -1,26 +1,23 @@
 {
   "version": 2,
   "name": "postech-tech-challenge",
+  "buildCommand": "nx build dashboard",
+  "devCommand": "nx serve dashboard",
+  "installCommand": "npm install",
+  "outputDirectory": "dist/apps/dashboard",
+  "env": {
+    "NODE_ENV": "production"
+  },
   "builds": [
     {
-      "src": "apps/dashboard/package.json",
-      "use": "@vercel/next",
-      "config": {
-        "distDir": ".next"
-      }
+      "src": "apps/dashboard/next.config.js",
+      "use": "@vercel/next"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "apps/dashboard/$1"
+      "dest": "/"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "buildCommand": "cd apps/dashboard && npm run build",
-  "devCommand": "cd apps/dashboard && npm run dev",
-  "installCommand": "npm install && cd apps/dashboard && npm install",
-  "outputDirectory": "apps/dashboard/.next"
+  ]
 }

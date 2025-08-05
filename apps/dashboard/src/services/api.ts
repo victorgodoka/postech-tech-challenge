@@ -70,7 +70,7 @@ class ApiClient {
     return this.request<T>(endpoint, { method: 'GET', headers });
   }
 
-  async post<T>(endpoint: string, data?: any, headers?: Record<string, string>): Promise<T> {
+  async post<T>(endpoint: string, data?: unknown, headers?: Record<string, string>): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
@@ -78,7 +78,7 @@ class ApiClient {
     });
   }
 
-  async put<T>(endpoint: string, data?: any, headers?: Record<string, string>): Promise<T> {
+  async put<T>(endpoint: string, data?: unknown, headers?: Record<string, string>): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,

@@ -50,7 +50,7 @@ export function usePerformance(
 
     // Track memory usage if enabled and available
     if (trackMemory && 'memory' in performance) {
-      const memory = (performance as any).memory;
+      const memory = (performance as { memory: { usedJSHeapSize: number } }).memory;
       newMetrics.memoryUsage = memory.usedJSHeapSize;
     }
 
@@ -77,7 +77,7 @@ export function usePerformance(
 
     // Update last render time for next measurement
     lastRenderTimeRef.current = Date.now();
-  });
+  }, [trackMemory, logToConsole, threshold, componentName]);
 
   return metrics;
 }
@@ -177,8 +177,8 @@ export function useDevicePerformance() {
 
   useEffect(() => {
     const hardwareConcurrency = navigator.hardwareConcurrency || 1;
-    const memory = (navigator as any).deviceMemory;
-    const connection = (navigator as any).connection;
+    const memory = (navigator as { deviceMemory?: number }).deviceMemory;
+    const connection = (navigator as { connection?: { effectiveType?: string } }).connection;
 
     // Consider device low-end if:
     // - Less than 4 CPU cores
@@ -187,7 +187,7 @@ export function useDevicePerformance() {
     const isLowEndDevice = 
       hardwareConcurrency < 4 ||
       (memory && memory < 4) ||
-      (connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g'));
+      (connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g')) || false;
 
     setDeviceInfo({
       isLowEndDevice,

@@ -3,15 +3,11 @@
   "nxCloudId": "687f9cffc26830760a522a74",
   "targetDefaults": {
     "build": {
-      "outputs": [
-        "{projectRoot}/.next"
-      ],
+      "outputs": ["{projectRoot}/.next"],
       "cache": true
     },
     "build-storybook": {
-      "outputs": [
-        "{projectRoot}/storybook-static"
-      ],
+      "outputs": ["{projectRoot}/storybook-static"],
       "cache": true
     },
     "lint": {
@@ -20,29 +16,26 @@
   },
   "plugins": [
     {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    },
-    {
       "plugin": "@nx/next/plugin",
       "options": {
         "startTargetName": "next:start",
         "buildTargetName": "next:build",
         "devTargetName": "next:dev",
-        "serveStaticTargetName": "serve-static",
-        "buildDepsTargetName": "build-deps",
-        "watchDepsTargetName": "watch-deps"
+        "serveStaticTargetName": "serve-static"
       }
     },
     {
-      "plugin": "@nx/storybook/plugin",
+      "plugin": "@nx/vite/plugin",
       "options": {
-        "serveStorybookTargetName": "serve:storybook",
-        "buildStorybookTargetName": "build:storybook",
-        "testStorybookTargetName": "test-storybook",
-        "staticStorybookTargetName": "static-storybook"
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "devTargetName": "dev",
+        "previewTargetName": "preview",
+        "serveStaticTargetName": "serve-static",
+        "typecheckTargetName": "typecheck",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
       }
     }
   ]

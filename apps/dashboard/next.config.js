@@ -1,7 +1,8 @@
+// Next.js configuration
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
@@ -60,6 +61,11 @@ const nextConfig = {
   
   // Configurações de build
   output: 'standalone',
+  
+  // Webpack configuration
+  webpack(config, options) {
+    return config;
+  },
 }
 
 module.exports = nextConfig

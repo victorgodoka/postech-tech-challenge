@@ -6,6 +6,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import { attachmentsService, type Attachment } from '@/services/attachmentsService';
 
@@ -76,6 +77,15 @@ export const AttachmentViewer: React.FC<AttachmentViewerProps> = ({
     }
   }, []);
 
+  // Fechar preview
+  const closePreview = useCallback(() => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    setSelectedAttachment(null);
+    setPreviewUrl(null);
+  }, [previewUrl]);
+
   // Deletar anexo
   const deleteAttachment = useCallback(async (attachment: Attachment) => {
     if (!confirm(`Tem certeza que deseja excluir "${attachment.fileName}"?`)) {
@@ -94,16 +104,7 @@ export const AttachmentViewer: React.FC<AttachmentViewerProps> = ({
     } catch (error) {
       console.error('Erro ao deletar anexo:', error);
     }
-  }, [selectedAttachment, onAttachmentDeleted]);
-
-  // Fechar preview
-  const closePreview = useCallback(() => {
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-    }
-    setSelectedAttachment(null);
-    setPreviewUrl(null);
-  }, [previewUrl]);
+  }, [selectedAttachment, onAttachmentDeleted, closePreview]);
 
   // Obter ícone do arquivo
   const getFileIcon = useCallback((fileType: string) => {
@@ -242,10 +243,13 @@ export const AttachmentViewer: React.FC<AttachmentViewerProps> = ({
             {/* Conteúdo do preview */}
             <div className="p-4 max-h-96 overflow-auto">
               {selectedAttachment.fileType.startsWith('image/') ? (
-                <img
+                <Image
                   src={previewUrl}
                   alt={selectedAttachment.fileName}
+                  width={500}
+                  height={300}
                   className="max-w-full h-auto rounded"
+                  style={{ objectFit: 'contain' }}
                 />
               ) : selectedAttachment.fileType === 'application/pdf' ? (
                 <iframe

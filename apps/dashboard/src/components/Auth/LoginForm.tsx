@@ -1,8 +1,3 @@
-/**
- * Componente de Login integrado com AuthService
- * Demonstra uso do sistema de autenticação centralizado
- */
-
 import React, { useState } from 'react';
 import { useAuth } from '../../../../../packages/shared/auth/ProtectedRoute';
 import { eventBus } from '../../../../../packages/shared/events/EventBus';
@@ -48,6 +43,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
         });
       }
     } catch (err) {
+      console.error('Erro ao fazer login:', err);
       const errorMsg = 'Erro interno. Tente novamente mais tarde.';
       setError(errorMsg);
       onError?.(errorMsg);

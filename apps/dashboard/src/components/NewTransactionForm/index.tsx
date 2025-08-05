@@ -89,8 +89,6 @@ const NewTransactionForm = ({
     setError("");
     setLoading(true);
 
-    // Validações
-    // O valor vem em centavos do componente Input currency
     const valueInCents = parseInt(String(value)) || 0;
     if (valueInCents <= 0) {
       setError("Digite um valor válido.");
@@ -98,9 +96,6 @@ const NewTransactionForm = ({
       return;
     }
     
-    // Converter centavos para valor real para validação
-    let floatValue = valueInCents / 100;
-
     if (moment(date).isAfter(today)) {
       setError("A data não pode ser no futuro.");
       setLoading(false);
@@ -113,7 +108,6 @@ const NewTransactionForm = ({
       return;
     }
 
-    // Ajustar valor baseado no tipo (já está em centavos)
     let finalValueInCents = valueInCents;
     if (type === "Saque") finalValueInCents = -valueInCents;
 

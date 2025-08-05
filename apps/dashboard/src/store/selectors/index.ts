@@ -20,7 +20,7 @@ export const selectIsAuthenticated = createSelector(
 export const selectTransactionsByAccount = createSelector(
   [selectTransactions, (state: RootState, accountId: string) => accountId],
   (transactions, accountId) => 
-    transactions.transactions.filter((tx: any) => tx.accountId === accountId)
+    transactions.transactions.filter((tx) => tx.accountId === accountId)
 );
 
 export const selectSortedTransactions = createSelector(

@@ -25,7 +25,7 @@ const SESSION_KEY = "bank-app-session";
 
 export function createSession(email: string, id: string, durationMinutes = 30): Session {
   const now = Date.now();
-  const expiresAt = now + durationMinutes * 60 * 1000000;
+  const expiresAt = now + durationMinutes * 60 * 1000;
   const token = crypto.randomUUID();
 
   const session: Session = { email, token, expiresAt, id };
@@ -52,14 +52,20 @@ export function getSession(): Session | null {
 
 export function clearSession() {
   localStorage.removeItem(SESSION_KEY);
+  removeSessionCookie();
 }
 
 export function setSessionCookie(session: Session) {
   const encoded = btoa(JSON.stringify(session));
-  // Enhanced security: HttpOnly, Secure, SameSite=Strict
   const isProduction = process.env.NODE_ENV === 'production';
-  const secureFlag = isProduction ? 'Secure; ' : '';
-  document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Strict; ${secureFlag}HttpOnly`;
+  
+  if (isProduction) {
+    // Produção: cookies seguros com HttpOnly
+    document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Strict; Secure; HttpOnly`;
+  } else {
+    // Desenvolvimento: cookies mais permissivos para localhost (sem HttpOnly para JS access)
+    document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Lax`;
+  }
 }
 
 export function removeSessionCookie() {

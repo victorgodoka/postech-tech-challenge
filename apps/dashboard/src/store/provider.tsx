@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './index';
 import { initializeAuth } from './slices/authSlice';
@@ -8,20 +7,22 @@ interface ReduxProviderProps {
   children: React.ReactNode;
 }
 
-export const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
-  const [isHydrated, setIsHydrated] = useState(false);
-
+// Componente interno para inicializar auth
+const AuthInitializer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   useEffect(() => {
-    // Ensure we're on the client side before initializing
-    setIsHydrated(true);
-    // Initialize auth state after hydration
+    console.log('Redux: Inicializando autenticação...');
     store.dispatch(initializeAuth());
   }, []);
 
-  // Prevent hydration mismatch by not rendering until client-side
-  if (!isHydrated) {
-    return <Provider store={store}>{children}</Provider>;
-  }
+  return <>{children}</>;
+};
 
-  return <Provider store={store}>{children}</Provider>;
+export const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
+  return (
+    <Provider store={store}>
+      <AuthInitializer>
+        {children}
+      </AuthInitializer>
+    </Provider>
+  );
 };

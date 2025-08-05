@@ -1,3 +1,0 @@
-import '../src/app/globals.css';
-
-// ...existing code...

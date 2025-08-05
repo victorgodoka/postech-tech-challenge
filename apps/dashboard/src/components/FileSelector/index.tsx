@@ -1,11 +1,7 @@
-/**
- * Componente FileSelector - Tech Challenge POSTECH
- * Seleção de arquivos com drag & drop e preview (sem upload automático)
- */
-
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import { Icon } from '@iconify/react';
 
 interface FileSelectorProps {
@@ -20,7 +16,7 @@ interface FileSelectorProps {
 interface FilePreview {
   file: File;
   id: string;
-  preview?: string;
+  preview?: string; 
 }
 
 export const FileSelector: React.FC<FileSelectorProps> = ({
@@ -44,7 +40,6 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
   const [error, setError] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Gerar preview para imagens
   const generatePreview = useCallback((file: File): Promise<string | undefined> => {
     return new Promise((resolve) => {
       if (!file.type.startsWith('image/')) {
@@ -59,7 +54,6 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
     });
   }, []);
 
-  // Validar arquivo
   const validateFile = useCallback((file: File): string | null => {
     if (!acceptedTypes.includes(file.type)) {
       return `Tipo de arquivo não suportado: ${file.type}`;
@@ -258,9 +252,11 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
                 {/* Preview ou ícone */}
                 <div className="flex-shrink-0">
                   {filePreview.preview ? (
-                    <img
+                    <Image
                       src={filePreview.preview}
                       alt={filePreview.file.name}
+                      width={40}
+                      height={40}
                       className="w-10 h-10 object-cover rounded"
                     />
                   ) : (

@@ -6,6 +6,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import { attachmentsService, type Attachment } from '@/services/attachmentsService';
 
@@ -218,9 +219,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                 {/* Preview ou ícone */}
                 <div className="flex-shrink-0">
                   {filePreview.preview ? (
-                    <img
+                    <Image
                       src={filePreview.preview}
                       alt={filePreview.file.name}
+                      width={40}
+                      height={40}
                       className="w-10 h-10 object-cover rounded"
                     />
                   ) : (

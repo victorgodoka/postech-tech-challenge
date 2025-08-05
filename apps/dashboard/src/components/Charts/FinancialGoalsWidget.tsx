@@ -25,7 +25,7 @@ export const FinancialGoalsWidget: React.FC<FinancialGoalsWidgetProps> = ({ tran
     deadline: '',
     category: 'Poupança'
   });
-  const [editingGoal, setEditingGoal] = useState<string | null>(null);
+  // const [editingGoal, setEditingGoal] = useState<string | null>(null);
 
   // Carregar metas do IndexedDB
   useEffect(() => {
@@ -81,16 +81,16 @@ export const FinancialGoalsWidget: React.FC<FinancialGoalsWidgetProps> = ({ tran
     }
   };
 
-  const handleEditGoal = async (goalId: string, updates: Partial<FinancialGoal>) => {
-    try {
-      await financialGoalsService.updateGoal(goalId, updates);
-      await loadGoals();
-      setEditingGoal(null);
-    } catch (error) {
-      console.error('Erro ao editar meta:', error);
-      alert('Erro ao editar meta financeira');
-    }
-  };
+  // const handleEditGoal = async (goalId: string, updates: Partial<FinancialGoal>) => {
+  //   try {
+  //     await financialGoalsService.updateGoal(goalId, updates);
+  //     await loadGoals();
+  //     // setEditingGoal(null);
+  //   } catch (error) {
+  //     console.error('Erro ao editar meta:', error);
+  //     alert('Erro ao editar meta financeira');
+  //   }
+  // };
 
   // Calcular progresso das metas baseado nas transações
   const goalsWithProgress = useMemo(() => {
@@ -124,18 +124,18 @@ export const FinancialGoalsWidget: React.FC<FinancialGoalsWidgetProps> = ({ tran
     });
   }, [goals, transactions]);
 
-  const getProgressColor = (goal: any) => {
+  const getProgressColor = (goal: FinancialGoal & { progress: number; isOverLimit?: boolean; color?: string }) => {
     if (goal.isOverLimit) return '#EF4444';
     if (goal.progress >= 100) return '#10B981';
     if (goal.progress >= 75) return '#F59E0B';
     return goal.color;
   };
 
-  const getStatusMessage = (goal: any) => {
+  const getStatusMessage = (goal: FinancialGoal & { progress: number; isOverLimit?: boolean; daysLeft?: number }) => {
     if (goal.isOverLimit) return '⚠️ Limite ultrapassado!';
     if (goal.progress >= 100) return '🎉 Meta atingida!';
     if (goal.progress >= 75) return '🔥 Quase lá!';
-    if (goal.daysLeft < 30) return '⏰ Prazo próximo';
+    if (goal.daysLeft !== undefined && goal.daysLeft < 30) return '⏰ Prazo próximo';
     return '📈 Em progresso';
   };
 
@@ -171,7 +171,7 @@ export const FinancialGoalsWidget: React.FC<FinancialGoalsWidgetProps> = ({ tran
           <div className="text-center py-8 text-gray-500">
             <Icon icon="mdi:target" className="w-12 h-12 mx-auto mb-2 text-gray-300" />
             <p className="text-lg font-medium mb-1">Nenhuma meta cadastrada</p>
-            <p className="text-sm">Clique em "Nova Meta" para começar a definir suas metas financeiras</p>
+            <p className="text-sm">Clique em &quot;Nova Meta&quot; para começar a definir suas metas financeiras</p>
           </div>
         ) : (
           goalsWithProgress.map((goal) => (
@@ -224,13 +224,13 @@ export const FinancialGoalsWidget: React.FC<FinancialGoalsWidgetProps> = ({ tran
                 {getStatusMessage(goal)}
               </span>
               <div className="flex space-x-2">
-                <button 
+                {/* <button 
                   onClick={() => setEditingGoal(goal.id)}
                   className="text-gray-400 hover:text-blue-600 transition-colors"
                   title="Editar meta"
                 >
                   <Icon icon="mdi:pencil" className="w-4 h-4" />
-                </button>
+                </button> */}
                 <button 
                   onClick={() => handleDeleteGoal(goal.id)}
                   className="text-gray-400 hover:text-red-600 transition-colors"

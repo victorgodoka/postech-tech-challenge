@@ -9,7 +9,6 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import type { Transaction } from '@/store/slices/transactionSlice';
 import { Button } from '../Button';
-import { Input } from '../Input';
 
 interface TransactionPaginationProps {
   transactions: Transaction[];
@@ -130,8 +129,7 @@ export const TransactionPagination: React.FC<TransactionPaginationProps> = ({
           <label className="text-sm text-gray-600">Itens por página:</label>
           <select
             value={itemsPerPage}
-            onChange={(e) => {
-              const newItemsPerPage = parseInt(e.target.value);
+            onChange={(_e) => {
               // Aqui você pode adicionar uma prop para alterar itemsPerPage
               // Por enquanto, apenas mostra o valor atual
             }}

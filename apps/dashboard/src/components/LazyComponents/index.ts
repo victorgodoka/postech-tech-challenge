@@ -1,8 +1,8 @@
 import { lazy } from 'react';
 
 // Lazy load heavy components to improve initial load time
-export const LazyTransactions = lazy(() => import('@/app/dashboard/Transactions'));
-export const LazyHome = lazy(() => import('@/app/dashboard/Home'));
+export const LazyTransactions = lazy(() => import('@/pages/dashboard/Transactions'));
+export const LazyHome = lazy(() => import('@/pages/dashboard/Home'));
 // Remove problematic Charts import - load individual chart components instead
 export const LazyNewTransactionForm = lazy(() => import('@/components/NewTransactionForm'));
 

@@ -153,7 +153,7 @@ export const TransactionSearch: React.FC<TransactionSearchProps> = ({
       {searchTerm && (
         <div className="mt-2 flex items-center text-xs text-gray-500">
           <Icon icon="mdi:filter" className="h-3 w-3 mr-1" />
-          <span>Filtrando por: "{searchTerm}"</span>
+          <span>Filtrando por: &quot;{searchTerm}&quot;</span>
         </div>
       )}
     </div>

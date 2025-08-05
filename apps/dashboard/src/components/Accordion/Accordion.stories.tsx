@@ -102,7 +102,7 @@ const faqItems: AccordionItem[] = [
       <div>
         <p>To reset your password:</p>
         <ol className="mt-2 list-decimal list-inside">
-          <li>Click on "Forgot Password" on the login page</li>
+          <li>Click on &quot;Forgot Password&quot; on the login page</li>
           <li>Enter your email address</li>
           <li>Check your email for reset instructions</li>
           <li>Follow the link and create a new password</li>
@@ -200,7 +200,7 @@ export const Compact: Story = {
       {
         id: 'compact-1',
         title: 'Quick Info',
-        content: <p>Brief information that doesn't take much space.</p>,
+        content: <p>Brief information that doesn&apos;t take much space.</p>,
       },
       {
         id: 'compact-2',
