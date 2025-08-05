@@ -32,10 +32,11 @@ export function setSessionCookie(session: Session) {
   const isProduction = import.meta.env.PROD;
   
   if (isProduction) {
-    // Produção: cookies seguros
-    document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Strict; Secure`;
+    // Produção: usar localStorage apenas (cookies não funcionam entre domínios)
+    // O dashboard vai ler do localStorage quando o usuário acessar
+    console.log('Produção: salvando sessão apenas no localStorage');
   } else {
-    // Desenvolvimento: cookies mais permissivos para localhost
+    // Desenvolvimento: cookies para localhost
     document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Lax`;
   }
 }

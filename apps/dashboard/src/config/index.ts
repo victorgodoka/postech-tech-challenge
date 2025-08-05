@@ -3,7 +3,7 @@ function getHomeUrlInternal(): string {
   const envUrl = process.env.NEXT_PUBLIC_HOME_URL;
   const defaultUrl = process.env.NODE_ENV === 'development' 
     ? 'http://localhost:4001' 
-    : 'https://your-home-domain.vercel.app';
+    : 'https://postech-tech-challenge-three.vercel.app/';
   
   return envUrl || defaultUrl;
 }
@@ -12,7 +12,7 @@ function getDashboardUrlInternal(): string {
   const envUrl = process.env.NEXT_PUBLIC_DASHBOARD_URL;
   const defaultUrl = process.env.NODE_ENV === 'development' 
     ? 'http://localhost:3000' 
-    : 'https://your-dashboard-domain.vercel.app';
+    : 'https://postech-tech-challenge.vercel.app/';
   
   return envUrl || defaultUrl;
 }
