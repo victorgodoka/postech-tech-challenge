@@ -16,9 +16,7 @@
     "idb": "^8.0.3",
     "uuid": "^11.1.0",
     "vue": "^3.5.18",
-    "vue-router": "^4.4.5"
-  },
-  "devDependencies": {
+    "vue-router": "^4.4.5",
     "@iconify/json": "^2.2.366",
     "@iconify/tailwind": "^1.2.0",
     "@iconify/tailwind4": "^1.0.6",
