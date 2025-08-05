@@ -10,7 +10,6 @@ module.exports = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
     ignores: [
-      '.storybook/**/*',
       'dist/**/*',
       '.next/**/*',
       'node_modules/**/*',

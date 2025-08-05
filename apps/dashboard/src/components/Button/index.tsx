@@ -6,16 +6,16 @@ import { ButtonsVariant } from "@/const";
 export type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
-  type?: "button" | "a" | "link" | "submit";
+  buttonType?: "button" | "a" | "link" | "submit";
   disabled?: boolean;
   href?: string;
   variant: ButtonsVariant;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
   children,
   onClick,
-  type = "button",
+  buttonType = "button",
   variant = "primary",
   disabled = false,
   href = "#",
@@ -24,24 +24,24 @@ export const Button = ({
     ? buttonVariants.disabled
     : buttonVariants[variant];
 
-  if (type === "a")
+  if (buttonType === "a")
     return (
       <a
         onClick={onClick}
         href={href}
-        type={type}
+        type={buttonType}
         className={`${buttonVariants.base} ${variantClass}`}
       >
         {children}
       </a>
     );
 
-  if (type === "link")
+  if (buttonType === "link")
     return (
       <Link
         onClick={onClick}
         href={href}
-        type={type}
+        type={buttonType}
         className={`${buttonVariants.base} ${variantClass}`}
       >
         {children}
@@ -50,7 +50,7 @@ export const Button = ({
 
     return <button
       onClick={onClick}
-      type={type}
+      type={buttonType}
       disabled={disabled}
       className={`${buttonVariants.base} ${variantClass}`}
     >

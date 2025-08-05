@@ -6,10 +6,6 @@
       "outputs": ["{projectRoot}/.next"],
       "cache": true
     },
-    "build-storybook": {
-      "outputs": ["{projectRoot}/storybook-static"],
-      "cache": true
-    },
     "lint": {
       "cache": true
     }

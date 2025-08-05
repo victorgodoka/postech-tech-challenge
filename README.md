@@ -95,12 +95,6 @@ docker build -t dashboard ./apps/dashboard
 docker run -p 3000:3000 dashboard
 ```
 
-### 4. Storybook (Componentes)
-
-```bash
-npm run storybook
-# Acesse: http://localhost:6006
-```
 
 ## 📊 Funcionalidades Principais
 
@@ -165,7 +159,6 @@ Senha: user123
 ### **Testing**
 - **Jest**: Testes unitários
 - **React Testing Library**: Testes de componentes
-- **Storybook**: Documentação de componentes
 - **MSW**: Mock de APIs
 
 ## 📱 Demonstração
@@ -175,7 +168,6 @@ Senha: user123
 
 ### 🌐 **Deploy Live**
 - **Produção**: [https://postech-banking.vercel.app](https://postech-banking.vercel.app)
-- **Storybook**: [https://postech-storybook.vercel.app](https://postech-storybook.vercel.app)
 
 ## 📚 Documentação
 
@@ -228,7 +220,6 @@ Este projeto foi desenvolvido para fins acadêmicos como parte do Tech Challenge
 ---
 
 **⭐ Se este projeto atendeu aos requisitos do Tech Challenge, considere dar uma estrela!**
-- [Storybook](https://storybook.js.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/)
 
@@ -244,7 +235,6 @@ Este projeto foi desenvolvido para fins acadêmicos como parte do Tech Challenge
 │   ├── lib/                # Funções utilitárias e API
 │   └── utils/              # Utilidades diversas
 ├── public/                 # Imagens e arquivos estáticos
-├── .storybook/             # Configuração do Storybook
 ├── README.md               # Este arquivo
 ```
 
@@ -252,7 +242,6 @@ Este projeto foi desenvolvido para fins acadêmicos como parte do Tech Challenge
 - `npm run dev` — Inicia o servidor Next.js em modo desenvolvimento
 - `npm run build` — Gera a build de produção
 - `npm run start` — Inicia o servidor em produção
-- `npm run storybook` — Inicia o Storybook
 - `npm run lint` — Executa o linter
 
 ## 🌐 Deploy
@@ -262,5 +251,4 @@ Recomendado: [Vercel](https://vercel.com/) — deploy rápido e fácil para proj
 ## 📚 Aprenda Mais
 - [Documentação Next.js](https://nextjs.org/docs)
 - [Documentação Tailwind CSS](https://tailwindcss.com/docs)
-- [Storybook](https://storybook.js.org/docs/react/get-started/introduction)
 

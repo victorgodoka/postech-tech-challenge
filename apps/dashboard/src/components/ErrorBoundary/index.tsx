@@ -94,7 +94,7 @@ export class ErrorBoundary extends Component<Props, State> {
               </Button>
               
               <Button 
-                variant="outline" 
+                variant="blackGhost" 
                 onClick={() => window.location.reload()}
                 className="w-full"
               >

@@ -92,7 +92,7 @@ export async function addTransaction(transaction: { accountId: string, type: str
   return { ...transaction, id };
 }
 
-export async function updateTransactionById(id: string, data: { accountId: string, type: string, value: number, date: string }) {
+export async function updateTransactionById(id: string, data: Partial<Pick<Transaction, 'accountId' | 'type' | 'value' | 'date'>>) {
   const db = await getDB();
   const transaction = await db.get('transactions', id);
   if (!transaction) throw new Error('Transaction not found');

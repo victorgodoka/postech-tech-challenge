@@ -1,23 +1,18 @@
 {
-  "version": 2,
-  "name": "postech-tech-challenge",
-  "buildCommand": "nx build dashboard",
-  "devCommand": "nx serve dashboard",
-  "installCommand": "npm install",
-  "outputDirectory": "dist/apps/dashboard",
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "builds": [
-    {
-      "src": "apps/dashboard/next.config.js",
-      "use": "@vercel/next"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "comment": "This is a reference file. Use individual vercel.json files in each app directory for deployment.",
+  "projects": {
+    "dashboard": {
+      "root": "apps/dashboard",
+      "framework": "nextjs",
+      "buildCommand": "npm run build",
+      "outputDirectory": ".next"
+    },
+    "home": {
+      "root": "apps/home",
+      "framework": "vite",
+      "buildCommand": "npm run build",
+      "outputDirectory": "dist"
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
-  ]
+  }
 }
