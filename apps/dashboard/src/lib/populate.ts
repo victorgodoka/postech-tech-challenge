@@ -4,6 +4,13 @@ import { v4 as uuid } from 'uuid';
 export const populateDB = async () => {
   const db = await getDB();
   const accountId = 'e157be93-3ae6-4f13-997e-bae923f5b1ba';
+  
+  // Verificar se já existem dados para evitar duplicação
+  const existingTransactions = await db.getAll('transactions');
+  if (existingTransactions.length > 0) {
+    console.log('📊 Dados já existem no IndexedDB, pulando população.');
+    return;
+  }
 
   // Categorias realistas com probabilidades e valores típicos
   const expenseCategories = [

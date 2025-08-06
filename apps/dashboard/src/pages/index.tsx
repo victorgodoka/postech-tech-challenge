@@ -5,11 +5,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Dashboard from "./dashboard";
 import { redirectToHome } from "@/config";
+import { populateDB } from "@/lib/populate";
 
 export default function Home() {
   const { isAuthenticated, loading, session, error } = useAuth();
   const router = useRouter();
   const [countdown, setCountdown] = useState(3);
+  const [isPopulating, setIsPopulating] = useState(false);
+  const [populateCountdown, setPopulateCountdown] = useState(3);
 
   // Logs detalhados para debug (apenas em desenvolvimento)
   if (process.env.NODE_ENV === 'development') {
@@ -27,6 +30,38 @@ export default function Home() {
       console.log('loading:', loading);
       console.log('isAuthenticated:', isAuthenticated);
       console.log('session:', session);
+    }
+    
+    // Popular dados após login
+    if (!loading && isAuthenticated && !isPopulating) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Dashboard: Usuário autenticado, populando dados...');
+      }
+      
+      setIsPopulating(true);
+      
+      // Countdown para popular dados (3 segundos)
+      const populateTimer = setInterval(() => {
+        setPopulateCountdown(prev => {
+          if (prev <= 1) {
+            clearInterval(populateTimer);
+            // Popular dados após countdown
+            populateDB().then(() => {
+              if (process.env.NODE_ENV === 'development') {
+                console.log('Dashboard: Dados populados com sucesso!');
+              }
+              setIsPopulating(false);
+            }).catch(error => {
+              console.error('Erro ao popular dados:', error);
+              setIsPopulating(false);
+            });
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
+      return () => clearInterval(populateTimer);
     }
     
     // Redirecionar se não autenticado
@@ -49,9 +84,9 @@ export default function Home() {
       
       return () => clearInterval(countdownTimer);
     }
-  }, [isAuthenticated, loading, session, router]);
+  }, [isAuthenticated, loading, session, router, isPopulating]);
 
-  if (loading) {
+  if (loading || isPopulating) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
         <div className="text-center">
