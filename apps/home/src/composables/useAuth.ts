@@ -71,37 +71,98 @@ export function getSessionCookie(): Session | null {
 }
 
 // Utility functions - equivalente às funções do React
-export function createSession(email: string, userId: string): Session {
-  const token = btoa(`${email}:${Date.now()}`);
-  const expiresAt = Date.now() + 30 * 60 * 1000; // 30 minutes
-
-  const newSession: Session = { id: userId, email, token, expiresAt };
+export async function createSession(user: User): Promise<Session> {
+  if (!user.id) {
+    throw new Error('User ID is required to create session');
+  }
+  
+  const newSession: Session = {
+    id: user.id,
+    email: user.email,
+    token: btoa(`${user.email}:${Date.now()}`),
+    expiresAt: Date.now() + (30 * 60 * 1000) // 30 minutos
+  };
+  
+  // Salvar no localStorage (backup)
   localStorage.setItem(SESSION_KEY, JSON.stringify(newSession));
-  setSessionCookie(newSession);
+  
+  // Salvar no IndexedDB (principal)
+  const idbSession = createSessionData(user.id, user.email);
+  await saveSessionToIDB(idbSession);
+  
+  // Cookies apenas em desenvolvimento
+  if (!import.meta.env.PROD) {
+    setSessionCookie(newSession);
+  }
+  
+  console.log('Sessão criada e salva no IndexedDB');
   return newSession;
 }
 
-export function getSession(): Session | null {
+export async function getSession(): Promise<Session | null> {
+  // Primeiro tentar IndexedDB (principal)
+  try {
+    const idbSession = await getActiveSessionFromIDB();
+    if (idbSession) {
+      // Sincronizar com localStorage
+      const session: Session = {
+        id: idbSession.userId,
+        email: idbSession.email,
+        token: idbSession.token,
+        expiresAt: idbSession.expiresAt
+      };
+      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      return session;
+    }
+  } catch (error) {
+    console.error('Erro ao buscar sessão no IndexedDB:', error);
+  }
+  
+  // Fallback para localStorage
   const raw = localStorage.getItem(SESSION_KEY);
   if (!raw) return null;
-
+  
   try {
-    const sessionData = JSON.parse(raw) as Session;
-    if (Date.now() > sessionData.expiresAt) {
-      clearSession();
+    const session = JSON.parse(raw) as Session;
+    
+    // Verificar se a sessão não expirou
+    if (session.expiresAt < Date.now()) {
+      localStorage.removeItem(SESSION_KEY);
+      removeSessionCookie();
       return null;
     }
-    return sessionData;
+    
+    return session;
   } catch {
-    clearSession();
+    localStorage.removeItem(SESSION_KEY);
     return null;
   }
 }
 
-export function clearSession() {
+export async function clearSession(): Promise<void> {
+  // Limpar localStorage
   localStorage.removeItem(SESSION_KEY);
+  
+  // Limpar cookies
   removeSessionCookie();
+  
+  // Limpar IndexedDB
+  try {
+    await clearAllSessionsFromIDB();
+    console.log('Todas as sessões removidas do IndexedDB');
+  } catch (error) {
+    console.error('Erro ao limpar sessões do IndexedDB:', error);
+  }
 }
+
+// Import session service
+import { 
+  saveSessionToIDB, 
+  getActiveSessionFromIDB, 
+  clearAllSessionsFromIDB,
+  createSessionData,
+  type Session as IDBSession
+} from '../lib/sessionService';
 
 // Import API functions from lib
 import { loginUser as apiLoginUser, createUser as apiCreateUser, type User as ApiUser } from '../lib/api';
@@ -109,13 +170,16 @@ import { loginUser as apiLoginUser, createUser as apiCreateUser, type User as Ap
 // Composable principal - equivalente ao useAuth do React
 export function useAuth() {
   // Initialize auth on first use
-  const initializeAuth = () => {
+  const initializeAuth = async () => {
     loading.value = true;
     try {
-      const currentSession = getSession();
+      const currentSession = await getSession();
       session.value = currentSession;
+      if (currentSession) {
+        console.log('Sessão existente encontrada');
+      }
     } catch (err) {
-      console.error('Error initializing auth:', err);
+      console.error('Erro ao inicializar autenticação:', err);
       session.value = null;
     } finally {
       loading.value = false;
@@ -129,7 +193,7 @@ export function useAuth() {
     
     try {
       const user = await apiLoginUser(email, password);
-      const newSession = createSession(user.email, user.id!);
+      const newSession = await createSession(user);
       session.value = newSession;
       return newSession;
     } catch (err) {
@@ -148,7 +212,7 @@ export function useAuth() {
     
     try {
       const user = await apiCreateUser(userData);
-      const newSession = createSession(user.email, user.id!);
+      const newSession = await createSession(user);
       session.value = newSession;
       return newSession;
     } catch (err) {
@@ -161,8 +225,8 @@ export function useAuth() {
   };
 
   // Logout function
-  const logout = () => {
-    clearSession();
+  const logout = async () => {
+    await clearSession();
     session.value = null;
     error.value = null;
   };

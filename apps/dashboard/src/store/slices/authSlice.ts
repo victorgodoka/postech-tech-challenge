@@ -2,6 +2,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Session, getSession, createSession, clearSession as destroySession } from '@/utils';
 import { loginUser } from '@/lib/api';
 import { setSessionCookie, removeSessionCookie } from '@/utils';
+import { 
+  getActiveSessionFromIDB, 
+  saveSessionToIDB, 
+  clearAllSessionsFromIDB,
+  createSessionData
+} from '@/lib/sessionService';
 // import { authService, User } from '../../../../../packages/shared/auth/AuthService';
 // import { eventBus } from '../../../../../packages/shared/events/EventBus';
 
@@ -28,9 +34,29 @@ export const initializeAuth = createAsyncThunk(
   'auth/initialize',
   async () => {
     console.log('Redux: Verificando sessão existente...');
+    
+    // Primeiro tentar IndexedDB
+    try {
+      const idbSession = await getActiveSessionFromIDB();
+      if (idbSession) {
+        console.log('Redux: Sessão encontrada no IndexedDB:', idbSession.id);
+        const session: Session = {
+          id: idbSession.userId,
+          email: idbSession.email,
+          token: idbSession.token,
+          expiresAt: idbSession.expiresAt
+        };
+        // Sincronizar com localStorage
+        localStorage.setItem('bank-app-session', JSON.stringify(session));
+        return session;
+      }
+    } catch (error) {
+      console.error('Redux: Erro ao buscar sessão no IndexedDB:', error);
+    }
+    
+    // Fallback para localStorage
     const currentSession = getSession();
-    console.log('Redux: Sessão encontrada:', currentSession);
-    console.log('Redux: localStorage raw:', localStorage.getItem('bank-app-session'));
+    console.log('Redux: Sessão encontrada no localStorage:', currentSession);
     return currentSession;
   }
 );
@@ -40,7 +66,21 @@ export const loginAsync = createAsyncThunk(
   async ({ email, password }: { email: string; password: string }) => {
     const user = await loginUser(email, password);
     const newSession = createSession(user.email, user.id);
-    setSessionCookie(newSession);
+    
+    // Salvar no IndexedDB
+    try {
+      const idbSession = createSessionData(user.id, user.email);
+      await saveSessionToIDB(idbSession);
+      console.log('Redux: Sessão salva no IndexedDB');
+    } catch (error) {
+      console.error('Redux: Erro ao salvar sessão no IndexedDB:', error);
+    }
+    
+    // Cookies apenas em desenvolvimento
+    if (process.env.NODE_ENV !== 'production') {
+      setSessionCookie(newSession);
+    }
+    
     return newSession;
   }
 );
@@ -48,8 +88,20 @@ export const loginAsync = createAsyncThunk(
 export const logoutAsync = createAsyncThunk(
   'auth/logout',
   async () => {
+    // Limpar localStorage
     destroySession();
+    
+    // Limpar cookies
     removeSessionCookie();
+    
+    // Limpar IndexedDB
+    try {
+      await clearAllSessionsFromIDB();
+      console.log('Redux: Todas as sessões removidas do IndexedDB');
+    } catch (error) {
+      console.error('Redux: Erro ao limpar sessões do IndexedDB:', error);
+    }
+    
     return null;
   }
 );
