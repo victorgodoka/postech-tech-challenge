@@ -51,6 +51,7 @@ export default function Home() {
             });
             return 0;
           }
+          console.log(populateCountdown)
           console.log('Dashboard: Countdown para população:', prev - 1);
           return prev - 1;
         });
