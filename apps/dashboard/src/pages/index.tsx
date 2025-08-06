@@ -12,7 +12,7 @@ export default function Home() {
   const router = useRouter();
   const [countdown, setCountdown] = useState(3);
   const [isPopulating, setIsPopulating] = useState(false);
-  const [_, setPopulateCountdown] = useState(3);
+  const [populateCountdown, setPopulateCountdown] = useState(3);
 
   // Logs detalhados para debug (apenas em desenvolvimento)
   if (process.env.NODE_ENV === 'development') {
@@ -57,6 +57,7 @@ export default function Home() {
             });
             return 0;
           }
+          console.log(populateCountdown)
           return prev - 1;
         });
       }, 1000);
