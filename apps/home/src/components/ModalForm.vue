@@ -94,7 +94,7 @@ const handleSubmit = async (e: Event) => {
   if (hasErrors || !accepted.value) return;
 
   try {
-    await register({
+    const session = await register({
       name: form.name,
       email: form.email,
       password: form.password
@@ -107,11 +107,13 @@ const handleSubmit = async (e: Event) => {
     
     // Debug: verificar se sessão foi salva
     console.log('Sessão salva no localStorage:', localStorage.getItem('bank-app-session'));
+    console.log('Sessão retornada do registro:', session);
     
-    // Redirecionar para o dashboard Next.js com delay maior
+    // Redirecionar para o dashboard Next.js com token de sessão
     setTimeout(() => {
       console.log('Redirecionando para dashboard...');
-      redirectToDashboard();
+      const sessionToken = session ? btoa(JSON.stringify(session)) : undefined;
+      redirectToDashboard(sessionToken);
     }, 2000);
   } catch (error) {
     console.error('Erro ao criar conta:', error);

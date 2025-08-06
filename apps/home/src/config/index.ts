@@ -1,15 +1,19 @@
 // Configuração de URLs para diferentes ambientes
-function getDashboardUrlInternal(): string {
-  return import.meta.env.VITE_DASHBOARD_URL || 'https://dashboard.victorgodoka.com.br';
+function getDashboardUrl(): string {
+  const envUrl = import.meta.env.VITE_DASHBOARD_URL;
+  const defaultUrl = import.meta.env.DEV 
+    ? 'http://localhost:3000' 
+    : 'https://postech-tech-challenge-dashboard.vercel.app';
+  
+  return envUrl || defaultUrl;
 }
 
-function getHomeUrlInternal(): string {
-  const envUrl = import.meta.env.VITE_HOME_URL;
-  const defaultUrl = import.meta.env.DEV 
-    ? 'http://localhost:4001' 
-    : 'https://home.victorgodoka.com.br';
-    
-  return envUrl || defaultUrl;
+function getHomeUrl(): string {
+  if (typeof window === 'undefined') {
+    return import.meta.env.VITE_HOME_URL || 'http://localhost:5173';
+  }
+  
+  return import.meta.env.VITE_HOME_URL || 'https://postech-home.vercel.app';
 }
 
 export const config: {
@@ -19,10 +23,10 @@ export const config: {
   readonly isProd: boolean;
 } = {
   // URL do Dashboard Next.js
-  dashboardUrl: getDashboardUrlInternal(),
+  dashboardUrl: getDashboardUrl(),
   
   // URL do Home Vue (para referência)
-  homeUrl: getHomeUrlInternal(),
+  homeUrl: getHomeUrl(),
   
   // Ambiente atual
   isDev: import.meta.env.DEV,
@@ -30,8 +34,9 @@ export const config: {
 } as const;
 
 // Função para redirecionar para o dashboard
-export function redirectToDashboard(): void {
-  const dashboardUrl = config.dashboardUrl;
+export function redirectToDashboard(sessionToken?: string): void {
+  let dashboardUrl = config.dashboardUrl;
+  
   console.log('Redirecionando para dashboard:', dashboardUrl);
   
   if (!dashboardUrl || dashboardUrl === '') {
@@ -39,19 +44,24 @@ export function redirectToDashboard(): void {
     return;
   }
   
+  // Em produção, incluir token de sessão na URL
+  if (config.isProd && sessionToken) {
+    const separator = dashboardUrl.includes('?') ? '&' : '?';
+    dashboardUrl = `${dashboardUrl}${separator}session=${encodeURIComponent(sessionToken)}`;
+    console.log('Redirecionando para dashboard com token de sessão');
+  }
+  
   // Garantir URL absoluta
   const absoluteUrl = dashboardUrl.startsWith('http') ? dashboardUrl : `https://${dashboardUrl}`;
   
-  // Em produção, transferir sessão via localStorage (mesmo banco IndexedDB)
-  if (config.isProd) {
-    console.log('Produção: redirecionando com sessão compartilhada via localStorage');
-  }
-  
   console.log('URL absoluta do dashboard:', absoluteUrl);
-  window.location.replace(absoluteUrl);
+  
+  if (typeof window !== 'undefined') {
+    window.location.replace(absoluteUrl);
+  }
 }
 
-// Função para obter URL do dashboard
-export function getDashboardUrl(): string {
-  return config.dashboardUrl;
-}
+// Função para obter URL do dashboard (removida - duplicada)
+// export function getDashboardUrl(): string {
+//   return config.dashboardUrl;
+// }

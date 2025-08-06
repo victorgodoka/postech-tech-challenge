@@ -7,6 +7,18 @@ const nextConfig = {
   poweredByHeader: false,
   generateEtags: false,
   
+  // Tailwind CSS v4 configuration
+  experimental: {
+    turbo: {
+      rules: {
+        '*.css': {
+          loaders: ['@tailwindcss/vite'],
+          as: '*.css',
+        },
+      },
+    },
+  },
+  
   // Otimizações para produção
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

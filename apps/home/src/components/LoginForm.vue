@@ -86,17 +86,19 @@ const handleSubmit = async (e: Event) => {
   if (hasErrors) return;
 
   try {
-    await login(form.email, form.password);
+    const session = await login(form.email, form.password);
     
     alert('Login realizado com sucesso! Redirecionando para o dashboard...');
     
     // Debug: verificar se sessão foi salva
     console.log('Sessão salva no localStorage:', localStorage.getItem('bank-app-session'));
+    console.log('Sessão retornada do login:', session);
     
-    // Redirecionar para o dashboard Next.js com delay maior
+    // Redirecionar para o dashboard Next.js com token de sessão
     setTimeout(() => {
       console.log('Redirecionando para dashboard...');
-      redirectToDashboard();
+      const sessionToken = session ? btoa(JSON.stringify(session)) : undefined;
+      redirectToDashboard(sessionToken);
     }, 2000);
   } catch (error) {
     console.error('Erro ao fazer login:', error);

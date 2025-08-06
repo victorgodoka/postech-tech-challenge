@@ -40,7 +40,37 @@ export function getSession(): Session | null {
     console.log('=== UTILS GETSESSION DEBUG ===');
   }
   
-  // Primeiro verificar localStorage
+  // Em produção, primeiro verificar query string
+  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionParam = urlParams.get('session');
+    
+    if (sessionParam) {
+      try {
+        const sessionData = JSON.parse(atob(sessionParam));
+        if (isDev) console.log('utils getSession - sessão da URL:', sessionData);
+        
+        // Verificar se não expirou
+        if (sessionData.expiresAt > Date.now()) {
+          // Salvar no localStorage para próximas visitas
+          localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+          
+          // Limpar URL
+          const newUrl = window.location.pathname;
+          window.history.replaceState({}, document.title, newUrl);
+          
+          if (isDev) console.log('utils getSession - sessão da URL válida, salva no localStorage');
+          return sessionData;
+        } else {
+          if (isDev) console.log('utils getSession - sessão da URL expirada');
+        }
+      } catch (error) {
+        if (isDev) console.error('utils getSession - erro ao parsear sessão da URL:', error);
+      }
+    }
+  }
+  
+  // Verificar localStorage
   const raw = localStorage.getItem(SESSION_KEY);
   if (isDev) console.log('utils getSession - raw localStorage:', raw);
   
