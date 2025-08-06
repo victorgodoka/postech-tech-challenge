@@ -2,14 +2,29 @@ import { getDB } from './db';
 import { v4 as uuid } from 'uuid';
 
 export const populateDB = async () => {
-  const db = await getDB();
-  const accountId = 'e157be93-3ae6-4f13-997e-bae923f5b1ba';
+  console.log('🚀 PopulateDB: Iniciando população de dados...');
   
-  // Verificar se já existem dados para evitar duplicação
-  const existingTransactions = await db.getAll('transactions');
-  if (existingTransactions.length > 0) {
-    console.log('📊 Dados já existem no IndexedDB, pulando população.');
-    return;
+  let db, accountId;
+  
+  try {
+    db = await getDB();
+    console.log('📊 PopulateDB: Conexão com IndexedDB estabelecida');
+    
+    accountId = 'e157be93-3ae6-4f13-997e-bae923f5b1ba';
+    
+    // Verificar se já existem dados para evitar duplicação
+    const existingTransactions = await db.getAll('transactions');
+    console.log(`📊 PopulateDB: Encontradas ${existingTransactions.length} transações existentes`);
+    
+    if (existingTransactions.length > 0) {
+      console.log('📊 PopulateDB: Dados já existem, pulando população.');
+      return;
+    }
+    
+    console.log('📊 PopulateDB: Nenhuma transação encontrada, iniciando população...');
+  } catch (error) {
+    console.error('❌ PopulateDB: Erro ao conectar com IndexedDB:', error);
+    throw error;
   }
 
   // Categorias realistas com probabilidades e valores típicos
@@ -100,9 +115,11 @@ export const populateDB = async () => {
   // Order transactions by date descending (most recent first)
   transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+  console.log(`📊 PopulateDB: Inserindo ${transactions.length} transações...`);
   for (const tx of transactions) {
     await db.put('transactions', tx);
   }
+  console.log('✅ PopulateDB: Transações inseridas com sucesso!');
 
   const services = [
     { id: 'loan', label: 'Empréstimo', icon: 'loan', enabled: true, order: 1 },
@@ -113,9 +130,11 @@ export const populateDB = async () => {
     { id: 'cell', label: 'Crédito celular', icon: 'cell', enabled: true, order: 6 },
   ];
 
+  console.log(`📊 PopulateDB: Inserindo ${services.length} serviços...`);
   for (const service of services) {
     await db.put('services', service);
   }
+  console.log('✅ PopulateDB: Serviços inseridos com sucesso!');
 
   // Calculate the balance for the account 'e157be93-3ae6-4f13-997e-bae923f5b1ba'
   const balance = transactions
@@ -123,6 +142,7 @@ export const populateDB = async () => {
     .reduce((sum, tx) => sum + tx.value, 0);
 
   // Update the account with the new balance
+  console.log(`📊 PopulateDB: Atualizando conta com saldo: R$ ${balance.toFixed(2)}`);
   await db.put('accounts', {
     id: accountId,
     name: 'Conta Teste',
@@ -131,6 +151,8 @@ export const populateDB = async () => {
     type: 'Conta Corrente',
     updatedAt: new Date().toISOString(),
   });
+  console.log('✅ PopulateDB: Conta atualizada com sucesso!');
 
-  console.log('🌱 IndexedDB populado com sucesso.');
+  console.log('🌱 PopulateDB: IndexedDB populado com sucesso!');
+  console.log(`📊 Resumo: ${transactions.length} transações, ${services.length} serviços, saldo final: R$ ${balance.toFixed(2)}`);
 };

@@ -14,21 +14,22 @@ export default function Home() {
   const [isPopulating, setIsPopulating] = useState(false);
   const [populateCountdown, setPopulateCountdown] = useState(3);
 
-  // Logs detalhados para debug (apenas em desenvolvimento)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('=== DASHBOARD DEBUG ===');
-    console.log('isAuthenticated:', isAuthenticated);
-    console.log('loading:', loading);
-    console.log('session:', session);
-    console.log('error:', error);
-    console.log('localStorage session:', localStorage.getItem('bank-app-session'));
-  }
+  // Logs detalhados para debug
+  console.log('=== DASHBOARD DEBUG ===');
+  console.log('isAuthenticated:', isAuthenticated);
+  console.log('loading:', loading);
+  console.log('session:', session);
+  console.log('error:', error);
+  console.log('localStorage session:', localStorage.getItem('bank-app-session'));
   
   useEffect(() => {
+    console.log('=== USEEFFECT EXECUTADO ===');
     console.log('Dashboard - Estado atual:');
     console.log('loading:', loading);
     console.log('isAuthenticated:', isAuthenticated);
     console.log('session:', session);
+    console.log('isPopulating:', isPopulating);
+    console.log('populateCountdown:', populateCountdown);
     
     if (!loading && isAuthenticated && !isPopulating) {
       console.log('Dashboard: Usuário autenticado, iniciando população de dados...');
@@ -51,13 +52,18 @@ export default function Home() {
             });
             return 0;
           }
-          console.log(populateCountdown)
           console.log('Dashboard: Countdown para população:', prev - 1);
+    console.log('populateCountdown:', populateCountdown);
           return prev - 1;
         });
       }, 1000);
       
       return () => clearInterval(populateTimer);
+    } else {
+      console.log('Dashboard: Condição para população não atendida:');
+      console.log('- loading:', loading);
+      console.log('- isAuthenticated:', isAuthenticated);
+      console.log('- isPopulating:', isPopulating);
     }
     
     if (!loading && !isAuthenticated) {
@@ -77,7 +83,7 @@ export default function Home() {
       
       return () => clearInterval(countdownTimer);
     }
-  }, [isAuthenticated, loading, session, router, isPopulating]);
+  }, [isAuthenticated, loading, session, router]);
 
   if (loading || isPopulating) {
     return (

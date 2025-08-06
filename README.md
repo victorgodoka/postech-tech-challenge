@@ -260,7 +260,8 @@ Recomendado: [Vercel](https://vercel.com/) — deploy rápido e fácil para proj
 [![Vue.js](https://img.shields.io/badge/Vue.js-3+-green?logo=vue.js)](https://vuejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue?logo=typescript)](https://typescriptlang.org)
 [![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-2.0+-purple?logo=redux)](https://redux-toolkit.js.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4_Alpha-teal?logo=tailwindcss)](https://tailwindcss.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-teal?logo=tailwindcss)](https://tailwindcss.com)
+[![IndexedDB](https://img.shields.io/badge/IndexedDB-Persistent-orange)](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)](https://vercel.com)
 
 ### 🎯 Requisitos Técnicos
@@ -275,17 +276,17 @@ Recomendado: [Vercel](https://vercel.com/) — deploy rápido e fácil para proj
 - **População Automática**: Dados realistas gerados automaticamente após login
 - **Exportação**: CSV, JSON e impressão de transações
 
-#### ✅ **Tecnologias Obrigatórias**
+#### ✅ **Stack Tecnológica**
 
-- **Microfrontends**: Arquitetura independente com comunicação via IndexedDB
-- **TypeScript**: 100% tipado com interfaces robustas
-- **Redux Toolkit**: Gerenciamento de estado centralizado (Dashboard)
-- **Vue.js Composition API**: Gerenciamento reativo de estado (Home)
-- **IndexedDB**: Persistência local robusta com `idb` library
-- **Chart.js**: Gráficos interativos e responsivos
-- **Tailwind CSS v4 Alpha**: Sistema de design unificado
-- **Cloud Deploy**: Deploy automatizado na Vercel
-- **UX/Acessibilidade**: Interface responsiva e acessível
+- **Arquitetura de Microfrontends**: Aplicações independentes com comunicação via IndexedDB
+- **TypeScript**: Tipagem estática completa com interfaces robustas
+- **Redux Toolkit**: Gerenciamento de estado centralizado para o Dashboard
+- **Vue.js Composition API**: Gerenciamento reativo de estado para o Home
+- **IndexedDB**: Persistência local robusta utilizando a biblioteca `idb`
+- **Chart.js**: Visualizações interativas e responsivas de dados financeiros
+- **Tailwind CSS v4**: Sistema de design unificado e modular
+- **Vercel**: Plataforma de deploy com integração contínua
+- **Acessibilidade**: Interface responsiva
 
 ## 🏗️ Arquitetura Técnica
 
@@ -319,22 +320,20 @@ postech-tech-challenge/
 
 ### **Pré-requisitos**
 
-- Node.js 18+
-- npm ou yarn
-- Git
+- Node.js 18+ (LTS recomendado)
+- npm ou yarn para gerenciamento de dependências
+- Git para controle de versão
 
-### **Instalação Local**
+### **Instalação e Execução**
 
 ```bash
-# 1. Clonar repositório
-
-# 2. Instalar dependências
+# Instalar dependências do workspace
 npm install
 
-# 3. Executar ambos os apps
+# Executar ambas as aplicações simultaneamente
 npm run dev
 
-# Ou executar separadamente:
+# Execução individual (opcional):
 # Terminal 1 - Home App (Vue.js)
 cd apps/home && npm run dev
 
@@ -349,59 +348,59 @@ cd apps/dashboard && npm run dev
 - **Produção Home**: https://home.victorgodoka.com.br
 - **Produção Dashboard**: https://dashboard.victorgodoka.com.br
 
-## 🎮 Como Usar
+## 🎮 Utilização do Sistema
 
-### **1. Registro e Login**
+### **Fluxo de Autenticação**
 
-1. Acesse o Home App (localhost:4001)
-2. Clique em "Criar conta" ou "Entrar"
-3. Preencha os dados e faça login
-4. Será redirecionado automaticamente para o Dashboard
+1. Acesse a aplicação Home em `localhost:4001`
+2. Realize o cadastro ou autenticação através do formulário
+3. O sistema efetuará o redirecionamento automático para o Dashboard
+4. Os dados serão populados automaticamente após a autenticação
 
-### **2. Dashboard**
+### **Funcionalidades do Dashboard**
 
-- **Home**: Visualize gráficos, KPIs e metas financeiras
-- **Transações**: Gerencie suas transações financeiras
-- **Filtros**: Use filtros avançados para encontrar transações
-- **Upload**: Anexe recibos e documentos às transações
+- **Página Inicial**: Visualização de gráficos, indicadores e metas financeiras
+- **Gestão de Transações**: Interface completa para gerenciamento financeiro
+- **Sistema de Filtros**: Mecanismos avançados de busca e filtragem
+- **Upload de Documentos**: Anexação de comprovantes e recibos
 
-### **3. Funcionalidades Principais**
+### **Recursos Implementados**
 
-- **CRUD de Transações**: Criar, editar, excluir transações com validação
-- **Filtros Avançados**: Por data, categoria, tipo (Receitas/Gastos), valor
-- **Busca Inteligente**: Busca em tempo real por descrição
-- **Upload de Anexos**: Recibos e documentos com drag & drop e preview
-- **Metas Financeiras**: Configuração de objetivos com progress tracking
-- **Gráficos Interativos**: Chart.js com dados dinâmicos
-- **Exportação**: CSV, JSON e impressão
-- **População Automática**: Dados realistas dos últimos 90 dias
-- **Sessão Compartilhada**: Login único entre Home e Dashboard
+- **Operações CRUD**: Criação, edição e exclusão de transações com validação robusta
+- **Sistema de Filtros**: Filtragem por data, categoria, tipo (receitas/despesas) e valor
+- **Busca Contextual**: Mecanismo de busca em tempo real por descrição
+- **Gerenciamento de Anexos**: Upload de documentos com interface drag & drop e preview
+- **Planejamento Financeiro**: Configuração de metas com acompanhamento de progresso
+- **Visualização de Dados**: Gráficos interativos utilizando Chart.js
+- **Exportação de Dados**: Funcionalidades de export em CSV, JSON e impressão
+- **População Automática**: Geração de dados de demonstração dos últimos 90 dias
+- **Autenticação Unificada**: Sessão compartilhada entre os microfrontends
 
-## 🧪 Testes e Qualidade
+## 🧪 Validação e Qualidade
 
-### **Fluxo de Teste Manual Completo**
+### **Protocolo de Testes Funcionais**
 
-1. **Registro**: Criar conta no Home App (localhost:4001)
-2. **Login**: Autenticação automática no Dashboard
-3. **População**: Dados gerados automaticamente (3s countdown)
-4. **CRUD**: Criar, editar, excluir transações
-5. **Filtros**: Testar filtros por tipo (Receitas/Gastos), data, categoria
-6. **Upload**: Anexar documentos com drag & drop e preview
-7. **Metas**: Configurar e acompanhar objetivos financeiros
-8. **Exportação**: CSV, JSON e impressão de transações
-9. **Sessão**: Verificar compartilhamento entre apps
+1. **Cadastro de Usuário**: Validação do processo de registro no Home App
+2. **Autenticação**: Verificação do redirecionamento automático para o Dashboard
+3. **Inicialização de Dados**: Validação da população automática (countdown de 3 segundos)
+4. **Operações CRUD**: Teste das funcionalidades de criação, edição e exclusão
+5. **Sistema de Filtros**: Validação dos filtros por tipo, data e categoria
+6. **Upload de Documentos**: Teste da funcionalidade de anexação com drag & drop
+7. **Gestão de Metas**: Validação da configuração e acompanhamento de objetivos
+8. **Exportação**: Teste das funcionalidades de export (CSV, JSON, impressão)
+9. **Persistência de Sessão**: Verificação do compartilhamento entre aplicações
 
-### **Scripts de Desenvolvimento**
+### **Scripts de Build e Desenvolvimento**
 
 ```bash
-# Executar ambos os apps
+# Execução do ambiente de desenvolvimento
 npm run dev
 
-# Linting e formatação
+# Análise de código e formatação
 npm run lint
 npm run format
 
-# Build para produção
+# Build para ambiente de produção
 npm run build
 ```
 
@@ -423,27 +422,27 @@ npm run build
 - **Home**: https://home.victorgodoka.com.br
 - **Dashboard**: https://dashboard.victorgodoka.com.br
 
-### **Configuração de Deploy**
+### **Arquitetura de Deploy**
 
-- **Plataforma**: Vercel
-- **CI/CD**: Automático via GitHub
-- **Domínios**: Configurados separadamente
-- **Variáveis de Ambiente**: Configuradas no Vercel
+- **Plataforma de Hospedagem**: Vercel com integração contínua
+- **Pipeline CI/CD**: Automatização via GitHub Actions
+- **Gestão de Domínios**: Configuração independente por aplicação
+- **Variáveis de Ambiente**: Gerenciamento centralizado na plataforma
 
-## 🏆 Diferenciais Técnicos
+## 🏆 Aspectos Técnicos Relevantes
 
-### **Arquitetura**
+### **Arquitetura de Software**
 
-- **Microfrontends Reais**: Apps independentes com comunicação
-- **Sessão Compartilhada**: Via IndexedDB entre domínios
-- **TypeScript 100%**: Type safety completo
-- **Design System**: Componentes reutilizáveis
+- **Microfrontends**: Implementação de aplicações independentes com comunicação inter-aplicacional
+- **Persistência de Sessão**: Utilização do IndexedDB para compartilhamento entre domínios
+- **Tipagem Estática**: Implementação integral em TypeScript para segurança de tipos
+- **Sistema de Design**: Componentes modulares e reutilizáveis
 
-### **UX/UI**
+### **Experiência do Usuário**
 
-- **Responsivo**: Mobile-first design
-- **Loading States**: Feedback visual consistente
-- **Error Handling**: Tratamento de erros
+- **Design Responsivo**: Abordagem mobile-first com adaptação multiplataforma
+- **Estados de Interface**: Feedback visual consistente durante operações asíncronas
+- **Tratamento de Erros**: Implementação robusta de error boundaries e validações
 
 ## 📚 Documentação Adicional
 
@@ -984,57 +983,57 @@ export default defineConfig({
 }
 ```
 
-## 🎯 Resumo Técnico Final
+## 🎯 Síntese Técnica
 
-### **Stack Implementada**
+### **Stack Tecnológica Implementada**
 
-- **Frontend**: Next.js 15.2+ (Dashboard) + Vue.js 3+ (Home)
-- **Estado**: Redux Toolkit + Vue Composition API
-- **Banco**: IndexedDB com `idb` library
-- **Styling**: Tailwind CSS v4
-- **Gráficos**: Chart.js para visualizações
-- **Upload**: Sistema completo com drag & drop
-- **Deploy**: Vercel com URLs independentes
+- **Camada de Apresentação**: Next.js 15.2+ para Dashboard e Vue.js 3+ para Home
+- **Gerenciamento de Estado**: Redux Toolkit integrado com Vue Composition API
+- **Persistência de Dados**: IndexedDB utilizando a biblioteca `idb`
+- **Sistema de Estilização**: Tailwind CSS v4 com design system unificado
+- **Visualização de Dados**: Chart.js para gráficos interativos
+- **Gerenciamento de Arquivos**: Sistema completo com interface drag & drop
+- **Infraestrutura**: Vercel com URLs independentes por aplicação
 
-### **Funcionalidades Entregues**
+### **Recursos Desenvolvidos**
 
-✅ **Microfrontends**: Apps independentes com comunicação via IndexedDB  
-✅ **Sessão Compartilhada**: Login único entre Home e Dashboard  
-✅ **CRUD Completo**: Transações com validação e filtros avançados  
-✅ **Upload de Anexos**: Recibos com preview e drag & drop  
-✅ **Metas Financeiras**: Widget personalizado com tracking  
-✅ **Gráficos Interativos**: Chart.js com dados dinâmicos  
-✅ **População Automática**: Dados realistas dos últimos 90 dias  
-✅ **Exportação**: CSV, JSON e impressão  
-✅ **TypeScript 100%**: Type safety completo  
-✅ **Deploy em Produção**: URLs funcionais na Vercel
+✅ **Arquitetura de Microfrontends**: Aplicações independentes com comunicação via IndexedDB  
+✅ **Autenticação Unificada**: Sistema de login compartilhado entre aplicações  
+✅ **Operações CRUD**: Gerenciamento completo de transações com validação e filtros  
+✅ **Gerenciamento de Documentos**: Upload de anexos com interface drag & drop  
+✅ **Planejamento Financeiro**: Sistema de metas com acompanhamento de progresso  
+✅ **Visualização Interativa**: Gráficos dinâmicos implementados com Chart.js  
+✅ **Inicialização Automática**: Geração de dados de demonstração  
+✅ **Funcionalidades de Export**: Exportação em múltiplos formatos  
+✅ **Tipagem Estática**: Implementação integral em TypeScript  
+✅ **Deploy em Produção**: Aplicações funcionais hospedadas na Vercel
 
-### **Diferenciais Técnicos**
+### **Características Técnicas**
 
-🚀 **Arquitetura Escalável**: Microfrontends independentes  
-🔄 **Comunicação Robusta**: IndexedDB + localStorage como fallback  
-⚡ **Performance**: Lazy loading e code splitting  
-🎨 **UX Moderna**: Interface responsiva com Tailwind CSS v4  
-🔒 **Segurança**: Hashing de senhas e validação rigorosa  
-📱 **Mobile-First**: Design responsivo completo
+🚀 **Arquitetura Modular**: Implementação de microfrontends com deploy independente  
+🔄 **Persistência Robusta**: IndexedDB com fallback para localStorage  
+⚡ **Otimização de Performance**: Lazy loading e code splitting implementados  
+🎨 **Interface Moderna**: Design responsivo utilizando Tailwind CSS v4  
+🔒 **Segurança de Dados**: Hashing de senhas e validação de entrada  
+📱 **Responsividade**: Abordagem mobile-first com adaptação multiplataforma
 
 ---
 
-### **Arquitetura Simplificada:**
+### **Implementação Técnica:**
 
-- ✅ **IndexedDB compartilhado**: Funciona
-- ✅ **Sessão compartilhada**: localStorage + IndexedDB
-- ✅ **Redux básico**: auth, transactions, accounts
-- ✅ **Composition API**: useAuth simples
-- ✅ **Deploy independente**: Vercel
-- ✅ **TypeScript**: 100% tipado
+- ✅ **Persistência Compartilhada**: IndexedDB como banco principal
+- ✅ **Autenticação Unificada**: localStorage com IndexedDB como backup
+- ✅ **Gerenciamento de Estado**: Redux para Dashboard, Composition API para Home
+- ✅ **Arquitetura Modular**: Componentes reutilizáveis e tipados
+- ✅ **Deploy Independente**: Hospedagem separada na Vercel
+- ✅ **Tipagem Estática**: TypeScript integral
 
-## 🎯 Resumo
+## 🎯 Considerações Finais
 
-O projeto implementa uma **arquitetura de microfrontends simples e funcional**:
+Este projeto demonstra a implementação de uma **arquitetura de microfrontends funcional** para gerenciamento financeiro:
 
-1. **Dois apps independentes** (Next.js + Vue.js)
-2. **Comunicação via IndexedDB** (banco `bank-app`)
-3. **Sessão compartilhada** (localStorage + IndexedDB)
-4. **Deploy separado** (Vercel)
-5. **Funcionalidades core** (CRUD transações, gráficos, upload anexos)
+1. **Aplicações Independentes**: Next.js e Vue.js com deploy separado
+2. **Comunicação Inter-aplicacional**: IndexedDB como mecanismo de persistência
+3. **Autenticação Compartilhada**: Sistema unificado entre aplicações
+4. **Infraestrutura Escalável**: Deploy independente com integração contínua
+5. **Funcionalidades Completas**: CRUD, visualizações, upload de documentos e planejamento financeiro
