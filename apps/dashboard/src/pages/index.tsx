@@ -7,16 +7,29 @@ import Dashboard from "./dashboard";
 import { redirectToHome } from "@/config";
 
 export default function Home() {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, session, error } = useAuth();
   const router = useRouter();
 
+  // Logs detalhados para debug
+  console.log('=== DASHBOARD DEBUG ===');
+  console.log('isAuthenticated:', isAuthenticated);
+  console.log('loading:', loading);
+  console.log('session:', session);
+  console.log('error:', error);
+  console.log('localStorage session:', localStorage.getItem('bank-app-session'));
+  
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      console.log('Dashboard: Usuário não autenticado, redirecionando para Home App...');
-      // Redirecionar para o Home Vue app para login
-      redirectToHome();
-    }
-  }, [isAuthenticated, loading, router]);
+    console.log('=== useEffect DASHBOARD ===');
+    console.log('loading:', loading);
+    console.log('isAuthenticated:', isAuthenticated);
+    console.log('session:', session);
+    
+    // REMOVIDO: Redirecionamento automático para debug
+    // if (!loading && !isAuthenticated) {
+    //   console.log('Dashboard: Usuário não autenticado, redirecionando para Home App...');
+    //   redirectToHome();
+    // }
+  }, [isAuthenticated, loading, session, router]);
 
   if (loading) {
     return (

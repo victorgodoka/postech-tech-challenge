@@ -23,24 +23,45 @@ export async function saveSessionToIDB(session: Session): Promise<void> {
 
 // Buscar sessão ativa no IndexedDB
 export async function getActiveSessionFromIDB(): Promise<Session | null> {
+  console.log('=== SESSION SERVICE DEBUG ===');
+  console.log('getActiveSessionFromIDB: Iniciando busca...');
+  
   try {
+    console.log('Tentando abrir banco de dados...');
     const db = await getDB();
+    console.log('Banco aberto com sucesso:', db);
+    
+    console.log('Buscando todas as sessões...');
     const sessions = await db.getAll('sessions');
+    console.log('Sessões encontradas:', sessions);
+    console.log('Número de sessões:', sessions.length);
     
     // Buscar sessão válida (não expirada)
     const now = Date.now();
-    const activeSession = sessions.find(session => session.expiresAt > now);
+    console.log('Timestamp atual:', now);
+    
+    const activeSession = sessions.find(session => {
+      console.log(`Verificando sessão ${session.id}: expira em ${session.expiresAt}, agora é ${now}`);
+      return session.expiresAt > now;
+    });
     
     if (activeSession) {
-      console.log('Sessão ativa encontrada no IndexedDB:', activeSession.id);
+      console.log('Sessão ativa encontrada no IndexedDB:', activeSession);
       return activeSession;
+    } else {
+      console.log('Nenhuma sessão ativa encontrada');
     }
     
     // Limpar sessões expiradas
+    console.log('Limpando sessões expiradas...');
     await clearExpiredSessions();
     return null;
   } catch (error) {
     console.error('Erro ao buscar sessão no IndexedDB:', error);
+    if (error instanceof Error) {
+      console.error('Mensagem do erro:', error.message);
+      console.error('Stack trace:', error.stack);
+    }
     return null;
   }
 }

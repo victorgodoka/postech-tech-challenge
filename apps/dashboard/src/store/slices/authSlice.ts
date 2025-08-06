@@ -33,30 +33,43 @@ const initialState: AuthState = {
 export const initializeAuth = createAsyncThunk(
   'auth/initialize',
   async () => {
+    console.log('=== INITIALIZE AUTH DEBUG ===');
     console.log('Redux: Verificando sessão existente...');
     
     // Primeiro tentar IndexedDB
     try {
+      console.log('Tentando acessar IndexedDB...');
       const idbSession = await getActiveSessionFromIDB();
+      console.log('Resultado IndexedDB:', idbSession);
+      
       if (idbSession) {
-        console.log('Redux: Sessão encontrada no IndexedDB:', idbSession.id);
+        console.log('Redux: Sessão encontrada no IndexedDB:', idbSession);
         const session: Session = {
           id: idbSession.userId,
           email: idbSession.email,
           token: idbSession.token,
           expiresAt: idbSession.expiresAt
         };
+        console.log('Sessão convertida:', session);
         // Sincronizar com localStorage
         localStorage.setItem('bank-app-session', JSON.stringify(session));
+        console.log('Sessão sincronizada com localStorage');
         return session;
+      } else {
+        console.log('Nenhuma sessão ativa encontrada no IndexedDB');
       }
     } catch (error) {
       console.error('Redux: Erro ao buscar sessão no IndexedDB:', error);
+      if (error instanceof Error) {
+        console.error('Stack trace:', error.stack);
+      }
     }
     
     // Fallback para localStorage
+    console.log('Tentando localStorage como fallback...');
     const currentSession = getSession();
     console.log('Redux: Sessão encontrada no localStorage:', currentSession);
+    console.log('=== FIM INITIALIZE AUTH ===');
     return currentSession;
   }
 );
