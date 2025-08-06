@@ -252,3 +252,789 @@ Recomendado: [Vercel](https://vercel.com/) — deploy rápido e fácil para proj
 - [Documentação Next.js](https://nextjs.org/docs)
 - [Documentação Tailwind CSS](https://tailwindcss.com/docs)
 
+# 🏦 Postech Tech Challenge - Banking Dashboard
+
+> **Sistema Completo de Gerenciamento Financeiro com Arquitetura de Microfrontends**
+
+[![Next.js](https://img.shields.io/badge/Next.js-15.2+-black?logo=next.js)](https://nextjs.org)
+[![Vue.js](https://img.shields.io/badge/Vue.js-3+-green?logo=vue.js)](https://vuejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue?logo=typescript)](https://typescriptlang.org)
+[![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-2.0+-purple?logo=redux)](https://redux-toolkit.js.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4_Alpha-teal?logo=tailwindcss)](https://tailwindcss.com)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)](https://vercel.com)
+
+### 🎯 Requisitos Técnicos
+
+#### ✅ **Funcionalidades Core**
+
+- **Dashboard Financeiro**: Home page com gráficos interativos (Chart.js) e KPIs
+- **Gestão de Transações**: CRUD completo com filtros avançados e busca inteligente
+- **Upload de Anexos**: Sistema de upload de recibos/documentos com preview e drag & drop
+- **Metas Financeiras**: Widget personalizado com tracking de progresso e alertas
+- **Autenticação**: Sistema de login/logout com sessão compartilhada via IndexedDB
+- **População Automática**: Dados realistas gerados automaticamente após login
+- **Exportação**: CSV, JSON e impressão de transações
+
+#### ✅ **Tecnologias Obrigatórias**
+
+- **Microfrontends**: Arquitetura independente com comunicação via IndexedDB
+- **TypeScript**: 100% tipado com interfaces robustas
+- **Redux Toolkit**: Gerenciamento de estado centralizado (Dashboard)
+- **Vue.js Composition API**: Gerenciamento reativo de estado (Home)
+- **IndexedDB**: Persistência local robusta com `idb` library
+- **Chart.js**: Gráficos interativos e responsivos
+- **Tailwind CSS v4 Alpha**: Sistema de design unificado
+- **Cloud Deploy**: Deploy automatizado na Vercel
+- **UX/Acessibilidade**: Interface responsiva e acessível
+
+## 🏗️ Arquitetura Técnica
+
+### 📦 Estrutura do Projeto
+
+```
+postech-tech-challenge/
+├── apps/
+│   ├── dashboard/                    # 🏠 Dashboard Principal (Next.js)
+│   │   ├── src/
+│   │   │   ├── components/          # Componentes React
+│   │   │   ├── hooks/               # Custom hooks
+│   │   │   ├── lib/                 # Utilitários e serviços
+│   │   │   ├── pages/               # Páginas Next.js
+│   │   │   ├── store/               # Redux store
+│   │   │   └── utils/               # Funções auxiliares
+│   │   ├── public/                  # Assets estáticos
+│   │   └── package.json             # Dependências
+│   └── home/                        # 🌐 Landing Page (Vue.js)
+│       ├── src/
+│       │   ├── components/          # Componentes Vue
+│       │   ├── composables/         # Composition API
+│       │   ├── lib/                 # Serviços e DB
+│       │   └── router/              # Vue Router
+│       └── package.json             # Dependências
+├── package.json                     # Workspace root
+└── README.md                        # Documentação
+```
+
+## 🚀 Como Executar
+
+### **Pré-requisitos**
+
+- Node.js 18+
+- npm ou yarn
+- Git
+
+### **Instalação Local**
+
+```bash
+# 1. Clonar repositório
+
+# 2. Instalar dependências
+npm install
+
+# 3. Executar ambos os apps
+npm run dev
+
+# Ou executar separadamente:
+# Terminal 1 - Home App (Vue.js)
+cd apps/home && npm run dev
+
+# Terminal 2 - Dashboard (Next.js)
+cd apps/dashboard && npm run dev
+```
+
+### **URLs de Acesso**
+
+- **Home App (Vue.js)**: http://localhost:4001
+- **Dashboard (Next.js)**: http://localhost:3000
+- **Produção Home**: https://home.victorgodoka.com.br
+- **Produção Dashboard**: https://dashboard.victorgodoka.com.br
+
+## 🎮 Como Usar
+
+### **1. Registro e Login**
+
+1. Acesse o Home App (localhost:4001)
+2. Clique em "Criar conta" ou "Entrar"
+3. Preencha os dados e faça login
+4. Será redirecionado automaticamente para o Dashboard
+
+### **2. Dashboard**
+
+- **Home**: Visualize gráficos, KPIs e metas financeiras
+- **Transações**: Gerencie suas transações financeiras
+- **Filtros**: Use filtros avançados para encontrar transações
+- **Upload**: Anexe recibos e documentos às transações
+
+### **3. Funcionalidades Principais**
+
+- **CRUD de Transações**: Criar, editar, excluir transações com validação
+- **Filtros Avançados**: Por data, categoria, tipo (Receitas/Gastos), valor
+- **Busca Inteligente**: Busca em tempo real por descrição
+- **Upload de Anexos**: Recibos e documentos com drag & drop e preview
+- **Metas Financeiras**: Configuração de objetivos com progress tracking
+- **Gráficos Interativos**: Chart.js com dados dinâmicos
+- **Exportação**: CSV, JSON e impressão
+- **População Automática**: Dados realistas dos últimos 90 dias
+- **Sessão Compartilhada**: Login único entre Home e Dashboard
+
+## 🧪 Testes e Qualidade
+
+### **Fluxo de Teste Manual Completo**
+
+1. **Registro**: Criar conta no Home App (localhost:4001)
+2. **Login**: Autenticação automática no Dashboard
+3. **População**: Dados gerados automaticamente (3s countdown)
+4. **CRUD**: Criar, editar, excluir transações
+5. **Filtros**: Testar filtros por tipo (Receitas/Gastos), data, categoria
+6. **Upload**: Anexar documentos com drag & drop e preview
+7. **Metas**: Configurar e acompanhar objetivos financeiros
+8. **Exportação**: CSV, JSON e impressão de transações
+9. **Sessão**: Verificar compartilhamento entre apps
+
+### **Scripts de Desenvolvimento**
+
+```bash
+# Executar ambos os apps
+npm run dev
+
+# Linting e formatação
+npm run lint
+npm run format
+
+# Build para produção
+npm run build
+```
+
+## 📱 Demonstração
+
+### **Fluxo de Demonstração**
+
+1. **Registro**: Criar nova conta no Home App
+2. **Login**: Autenticação automática
+3. **Dashboard**: Visualizar dados populados automaticamente
+4. **Transações**: CRUD completo com filtros
+5. **Upload**: Anexar documentos
+6. **Metas**: Configurar objetivos financeiros
+
+## 🌐 Deploy em Produção
+
+### **URLs de Produção**
+
+- **Home**: https://home.victorgodoka.com.br
+- **Dashboard**: https://dashboard.victorgodoka.com.br
+
+### **Configuração de Deploy**
+
+- **Plataforma**: Vercel
+- **CI/CD**: Automático via GitHub
+- **Domínios**: Configurados separadamente
+- **Variáveis de Ambiente**: Configuradas no Vercel
+
+## 🏆 Diferenciais Técnicos
+
+### **Arquitetura**
+
+- **Microfrontends Reais**: Apps independentes com comunicação
+- **Sessão Compartilhada**: Via IndexedDB entre domínios
+- **TypeScript 100%**: Type safety completo
+- **Design System**: Componentes reutilizáveis
+
+### **UX/UI**
+
+- **Responsivo**: Mobile-first design
+- **Loading States**: Feedback visual consistente
+- **Error Handling**: Tratamento de erros
+
+## 📚 Documentação Adicional
+
+## 🌐 Estratégia de Deploy
+
+### **Arquitetura de Deploy Independente**
+
+Cada microfrontend é deployado independentemente em sua própria URL:
+
+- **Dashboard (Next.js)**: https://dashboard.victorgodoka.com.br
+- **Home (Vue.js)**: https://home.victorgodoka.com.br
+
+### **Vantagens da Abordagem**
+
+- **Independência**: Deploy separado de cada app
+- **Escalabilidade**: Recursos dedicados por aplicação
+- **Confiabilidade**: Falha de um app não afeta outros
+- **Performance**: CDN otimizado por framework
+
+## ⚙️ Configurações de Deploy
+
+### **Dashboard - Vercel (Next.js)**
+
+```json
+// apps/dashboard/vercel.json
+{
+  "version": 2,
+  "name": "postech-tech-challenge-dashboard",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_HOME_URL": "https://home.victorgodoka.com.br",
+    "NEXT_PUBLIC_DASHBOARD_URL": "https://dashboard.victorgodoka.com.br"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
+}
+```
+
+### **Home - Vercel (Vue.js)**
+
+```json
+// apps/home/vercel.json
+{
+  "version": 2,
+  "name": "postech-home",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "env": {
+    "VITE_DASHBOARD_URL": "https://dashboard.victorgodoka.com.br",
+    "VITE_HOME_URL": "https://home.victorgodoka.com.br"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 🔧 Variáveis de Ambiente
+
+### **Dashboard (.env.local)**
+
+```bash
+# URLs dos microfrontends
+NEXT_PUBLIC_HOME_URL=https://home.victorgodoka.com.br
+NEXT_PUBLIC_DASHBOARD_URL=https://dashboard.victorgodoka.com.br
+
+# Configurações de build
+NODE_ENV=production
+NEXT_TELEMETRY_DISABLED=1
+
+# Analytics (opcional)
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+```
+
+### **Home (.env)**
+
+```bash
+# URLs dos microfrontends
+VITE_DASHBOARD_URL=https://dashboard.victorgodoka.com.br
+VITE_HOME_URL=https://home.victorgodoka.com.br
+
+# Configurações de build
+NODE_ENV=production
+VITE_BUILD_TARGET=production
+```
+
+# 🏗️ Arquitetura
+
+## 📐 Visão Geral da Arquitetura
+
+Este projeto implementa uma arquitetura de **microfrontends simples** com duas aplicações independentes que compartilham dados via **IndexedDB**.
+
+### 🎯 Princípios Implementados
+
+1. **Apps Independentes**: Dashboard (Next.js) + Home (Vue.js)
+2. **Comunicação via IndexedDB**: Banco compartilhado `bank-app`
+3. **Sessão Compartilhada**: Via localStorage + IndexedDB
+4. **Deploy Separado**: URLs independentes na Vercel
+
+## 🏢 Estrutura dos Microfrontends
+
+### **Dashboard App (Next.js) - Host**
+
+```typescript
+apps/dashboard/
+├── src/
+│   ├── components/          # Componentes React
+│   ├── hooks/               # Custom hooks (useAuth)
+│   ├── lib/                 # db.ts, api.ts, populate.ts, sessionService.ts
+│   ├── pages/               # Pages Router Next.js
+│   ├── store/               # Redux Toolkit (auth, transactions, accounts)
+│   ├── utils/               # Funções auxiliares
+│   └── context/             # AuthContext (não usado atualmente)
+├── public/                  # Assets
+├── package.json
+└── next.config.js
+```
+
+**Tecnologias Reais:**
+
+- **Next.js 15.2+**: Pages Router
+- **Redux Toolkit**: Estado centralizado
+- **TypeScript**: 100% tipado
+- **Tailwind CSS v4**: Styling
+- **IndexedDB**: Persistência via `idb` library
+
+### **Home App (Vue.js) - Remote**
+
+```typescript
+apps/home/
+├── src/
+│   ├── components/          # Componentes Vue
+│   ├── composables/         # useAuth.ts
+│   ├── lib/                 # db.ts, api.ts, sessionService.ts
+│   ├── router/              # Vue Router
+│   └── views/               # Pages Vue
+├── package.json
+└── vite.config.ts
+```
+
+**Tecnologias Reais:**
+
+- **Vue.js 3+**: Composition API
+- **Vite**: Build tool
+- **TypeScript**: Com `<script setup lang="ts">`
+- **Tailwind CSS**: Styling
+- **IndexedDB**: Mesmo banco do Dashboard
+
+## 🔄 Comunicação Entre Apps
+
+### **1. IndexedDB Compartilhado**
+
+```typescript
+// lib/db.ts (mesmo em ambos os apps)
+export const getDB = async (): Promise<IDBPDatabase<BankAppDB>> => {
+  return openDB<BankAppDB>('bank-app', 4, {
+    upgrade(db, oldVersion, newVersion, transaction) {
+      // Users store
+      if (!db.objectStoreNames.contains('users')) {
+        const usersStore = db.createObjectStore('users', { keyPath: 'id' })
+        usersStore.createIndex('email', 'email', { unique: true })
+      }
+
+      // Sessions store (v4 - para comunicação)
+      if (oldVersion < 4 && !db.objectStoreNames.contains('sessions')) {
+        const sessionsStore = db.createObjectStore('sessions', {
+          keyPath: 'id'
+        })
+        sessionsStore.createIndex('userId', 'userId')
+        sessionsStore.createIndex('expiresAt', 'expiresAt')
+      }
+
+      // Transactions, accounts, attachments, financial-goals...
+    }
+  })
+}
+```
+
+### **2. Sessão Compartilhada**
+
+```typescript
+// Home App - composables/useAuth.ts
+export const useAuth = () => {
+  const user = ref<User | null>(null)
+  const isAuthenticated = computed(() => !!user.value)
+
+  const login = async (credentials: LoginCredentials) => {
+    const session = await authenticateUser(credentials)
+    user.value = session.user
+
+    // Salvar no IndexedDB E localStorage
+    await saveSessionToIDB(session)
+    localStorage.setItem('bank-app-session', JSON.stringify(session))
+  }
+}
+
+// Dashboard App - store/slices/authSlice.ts
+export const initializeAuth = createAsyncThunk(
+  'auth/initialize',
+  async (_, { rejectWithValue }) => {
+    try {
+      // Verificar IndexedDB primeiro
+      const sessionFromIDB = await getActiveSessionFromIDB()
+      if (sessionFromIDB) {
+        localStorage.setItem('bank-app-session', JSON.stringify(sessionFromIDB))
+        return sessionFromIDB
+      }
+
+      // Fallback para localStorage
+      const sessionFromLS = localStorage.getItem('bank-app-session')
+      if (sessionFromLS) {
+        const session = JSON.parse(sessionFromLS)
+        if (new Date(session.expiresAt) > new Date()) {
+          return session
+        }
+      }
+
+      return null
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+```
+
+## 🗄️ Gerenciamento de Estado
+
+### **Redux Toolkit (Dashboard)**
+
+```typescript
+// store/index.ts
+export const store = configureStore({
+  reducer: {
+    auth: authSlice,
+    transactions: transactionSlice,
+    accounts: accountSlice
+  }
+  // Sem middleware customizado complexo
+})
+
+// store/slices/authSlice.ts
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: {
+    session: null,
+    isAuthenticated: false,
+    loading: false,
+    error: null,
+    user: null,
+    token: null
+  },
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload
+      state.isAuthenticated = true
+    },
+    logout: state => {
+      state.user = null
+      state.isAuthenticated = false
+      state.session = null
+    }
+  },
+  extraReducers: builder => {
+    builder.addCase(initializeAuth.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.user = action.payload
+        state.isAuthenticated = true
+        state.session = action.payload
+      }
+    })
+  }
+})
+```
+
+### **Composition API (Vue.js)**
+
+```typescript
+// composables/useAuth.ts
+export const useAuth = () => {
+  const user = ref<User | null>(null)
+  const session = ref<Session | null>(null)
+  const isAuthenticated = computed(() => !!user.value)
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+
+  const initializeAuth = async () => {
+    const sessionData = await getActiveSessionFromIDB()
+    if (sessionData) {
+      user.value = sessionData
+      session.value = sessionData
+    }
+  }
+
+  // Sem EventBus complexo - apenas IndexedDB + localStorage
+
+  return {
+    user: readonly(user),
+    session: readonly(session),
+    isAuthenticated,
+    loading: readonly(loading),
+    error: readonly(error),
+    login,
+    register,
+    logout,
+    initializeAuth
+  }
+}
+```
+
+## 🔄 Fluxo de Dados
+
+### **1. Fluxo de Autenticação Simplificado**
+
+```
+1. Home App (Vue.js)
+   ↓ Login/Register
+2. Salva no IndexedDB ('sessions' store)
+   ↓ + localStorage backup
+3. Redireciona para Dashboard
+   ↓
+4. Dashboard (Next.js)
+   ↓ initializeAuth()
+5. Lê IndexedDB → localStorage
+   ↓
+6. Usuario autenticado
+```
+
+### **2. Fluxo de População de Dados**
+
+```typescript
+// Dashboard - pages/index.tsx
+useEffect(() => {
+  if (!loading && isAuthenticated && !isPopulating) {
+    setIsPopulating(true)
+
+    // Countdown 3 segundos
+    const timer = setInterval(() => {
+      setPopulateCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(timer)
+          // Popular dados do lib/populate.ts
+          populateDB().then(() => {
+            setIsPopulating(false)
+          })
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+  }
+}, [isAuthenticated, loading, isPopulating])
+```
+
+## 🏭 Padrões Reais Implementados
+
+### **1. Service Layer Simples**
+
+```typescript
+// lib/api.ts (ambos os apps)
+export const createUser = async (userData: CreateUserData): Promise<User> => {
+  const db = await getDB()
+  const hashedPassword = await hashPassword(userData.password)
+
+  const user: User = {
+    id: uuid(),
+    ...userData,
+    passwordHash: hashedPassword,
+    createdAt: new Date().toISOString()
+  }
+
+  await db.add('users', user)
+  return user
+}
+
+export const authenticateUser = async (
+  credentials: LoginCredentials
+): Promise<Session> => {
+  const db = await getDB()
+  const user = await db.getFromIndex('users', 'email', credentials.email)
+
+  if (
+    !user ||
+    !(await verifyPassword(credentials.password, user.passwordHash))
+  ) {
+    throw new Error('Credenciais inválidas')
+  }
+
+  return createSession(user)
+}
+```
+
+### **2. Repository Pattern Básico**
+
+```typescript
+// Não há classes Repository complexas
+// Apenas funções diretas no api.ts:
+
+export const getAllTransactions = async (): Promise<Transaction[]> => {
+  const db = await getDB()
+  return db.getAll('transactions')
+}
+
+export const createTransaction = async (
+  transaction: Omit<Transaction, 'id'>
+): Promise<Transaction> => {
+  const db = await getDB()
+  const newTransaction = { ...transaction, id: uuid() }
+  await db.add('transactions', newTransaction)
+  return newTransaction
+}
+```
+
+## 🔧 Configurações Reais
+
+### **Next.js Configuration**
+
+```javascript
+// next.config.js
+const nextConfig = {
+  reactStrictMode: true,
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: false,
+
+  // Tailwind CSS v4 Alpha
+  experimental: {
+    turbo: {
+      rules: {
+        '*.css': {
+          loaders: ['@tailwindcss/vite'],
+          as: '*.css'
+        }
+      }
+    }
+  },
+
+  // Remove console.log em produção
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
+  }
+}
+```
+
+### **Vite Configuration**
+
+```typescript
+// vite.config.ts
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
+  server: {
+    port: 4001,
+    cors: true
+  }
+})
+```
+
+## 🚀 Deploy
+
+### **Estratégia Simples**
+
+- **Dashboard**: Vercel com Next.js
+- **Home**: Vercel com Vite
+- **URLs Independentes**: Sem Module Federation complexo
+- **Comunicação**: Apenas via IndexedDB compartilhado
+
+### **Configurações Vercel**
+
+```json
+// apps/dashboard/vercel.json
+{
+  "version": 2,
+  "name": "postech-tech-challenge-dashboard",
+  "builds": [{ "src": "package.json", "use": "@vercel/next" }]
+}
+
+// apps/home/vercel.json
+{
+  "version": 2,
+  "name": "postech-home",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
+}
+```
+
+## 🎯 Resumo Técnico Final
+
+### **Stack Implementada**
+
+- **Frontend**: Next.js 15.2+ (Dashboard) + Vue.js 3+ (Home)
+- **Estado**: Redux Toolkit + Vue Composition API
+- **Banco**: IndexedDB com `idb` library
+- **Styling**: Tailwind CSS v4
+- **Gráficos**: Chart.js para visualizações
+- **Upload**: Sistema completo com drag & drop
+- **Deploy**: Vercel com URLs independentes
+
+### **Funcionalidades Entregues**
+
+✅ **Microfrontends**: Apps independentes com comunicação via IndexedDB  
+✅ **Sessão Compartilhada**: Login único entre Home e Dashboard  
+✅ **CRUD Completo**: Transações com validação e filtros avançados  
+✅ **Upload de Anexos**: Recibos com preview e drag & drop  
+✅ **Metas Financeiras**: Widget personalizado com tracking  
+✅ **Gráficos Interativos**: Chart.js com dados dinâmicos  
+✅ **População Automática**: Dados realistas dos últimos 90 dias  
+✅ **Exportação**: CSV, JSON e impressão  
+✅ **TypeScript 100%**: Type safety completo  
+✅ **Deploy em Produção**: URLs funcionais na Vercel
+
+### **Diferenciais Técnicos**
+
+🚀 **Arquitetura Escalável**: Microfrontends independentes  
+🔄 **Comunicação Robusta**: IndexedDB + localStorage como fallback  
+⚡ **Performance**: Lazy loading e code splitting  
+🎨 **UX Moderna**: Interface responsiva com Tailwind CSS v4  
+🔒 **Segurança**: Hashing de senhas e validação rigorosa  
+📱 **Mobile-First**: Design responsivo completo
+
+---
+
+### **Arquitetura Simplificada:**
+
+- ✅ **IndexedDB compartilhado**: Funciona
+- ✅ **Sessão compartilhada**: localStorage + IndexedDB
+- ✅ **Redux básico**: auth, transactions, accounts
+- ✅ **Composition API**: useAuth simples
+- ✅ **Deploy independente**: Vercel
+- ✅ **TypeScript**: 100% tipado
+
+## 🎯 Resumo
+
+O projeto implementa uma **arquitetura de microfrontends simples e funcional**:
+
+1. **Dois apps independentes** (Next.js + Vue.js)
+2. **Comunicação via IndexedDB** (banco `bank-app`)
+3. **Sessão compartilhada** (localStorage + IndexedDB)
+4. **Deploy separado** (Vercel)
+5. **Funcionalidades core** (CRUD transações, gráficos, upload anexos)

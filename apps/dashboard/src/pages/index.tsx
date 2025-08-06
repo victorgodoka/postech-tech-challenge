@@ -25,18 +25,13 @@ export default function Home() {
   }
   
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('=== useEffect DASHBOARD ===');
-      console.log('loading:', loading);
-      console.log('isAuthenticated:', isAuthenticated);
-      console.log('session:', session);
-    }
+    console.log('Dashboard - Estado atual:');
+    console.log('loading:', loading);
+    console.log('isAuthenticated:', isAuthenticated);
+    console.log('session:', session);
     
-    // Popular dados após login
     if (!loading && isAuthenticated && !isPopulating) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Dashboard: Usuário autenticado, populando dados...');
-      }
+      console.log('Dashboard: Usuário autenticado, iniciando população de dados...');
       
       setIsPopulating(true);
       
@@ -45,19 +40,18 @@ export default function Home() {
         setPopulateCountdown(prev => {
           if (prev <= 1) {
             clearInterval(populateTimer);
+            console.log('Dashboard: Executando populateDB()...');
             // Popular dados após countdown
             populateDB().then(() => {
-              if (process.env.NODE_ENV === 'development') {
-                console.log('Dashboard: Dados populados com sucesso!');
-              }
+              console.log('Dashboard: Dados populados com sucesso!');
               setIsPopulating(false);
             }).catch(error => {
-              console.error('Erro ao popular dados:', error);
+              console.error('Dashboard: Erro ao popular dados:', error);
               setIsPopulating(false);
             });
             return 0;
           }
-          console.log(populateCountdown)
+          console.log('Dashboard: Countdown para população:', prev - 1);
           return prev - 1;
         });
       }, 1000);
@@ -65,11 +59,8 @@ export default function Home() {
       return () => clearInterval(populateTimer);
     }
     
-    // Redirecionar se não autenticado
     if (!loading && !isAuthenticated) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Dashboard: Usuário não autenticado, redirecionando para Home App...');
-      }
+      console.log('Dashboard: Usuário não autenticado, redirecionando para Home App...');
       
       // Countdown para redirecionamento
       const countdownTimer = setInterval(() => {
