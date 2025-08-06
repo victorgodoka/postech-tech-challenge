@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/redux/useAuth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Dashboard from "./dashboard";
-import { redirectToHome } from "@/config";
+// import { redirectToHome } from "@/config";
 
 export default function Home() {
   const { isAuthenticated, loading, session, error } = useAuth();
