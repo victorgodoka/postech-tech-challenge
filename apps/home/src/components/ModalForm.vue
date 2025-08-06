@@ -3,6 +3,7 @@ import { ref, reactive, computed, watch, nextTick } from 'vue';
 import Button from './Button/Button.vue';
 import { useAuth } from '../composables/useAuth';
 import { redirectToDashboard } from '../config';
+import { Icon } from "@iconify/vue";
 
 interface Props {
   isOpen: boolean;
@@ -151,7 +152,7 @@ const handleClose = () => {
         @click="handleClose"
         aria-label="Fechar modal"
       >
-        <i class="text-white text-2xl icon-[material-symbols--close]"></i>
+        <Icon icon="material-symbols:close" class="text-white text-2xl" />
       </button>
 
       <img
@@ -225,7 +226,7 @@ const handleClose = () => {
             accepted ? 'bg-green' : 'bg-white'
           ]"
         >
-          <i v-if="accepted" class="text-white icon-[material-symbols--close]"></i>
+          <Icon v-if="accepted" icon="material-symbols:close" class="text-white text-2xl" />
         </div>
         <p class="flex-1 text-sm text-black">
           Li e estou ciente quanto às condições de tratamento dos meus dados

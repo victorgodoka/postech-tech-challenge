@@ -3,6 +3,7 @@ import { ref, reactive, watch } from 'vue';
 import Button from './Button/Button.vue';
 import { useAuth } from '../composables/useAuth';
 import { redirectToDashboard } from '../config';
+import { Icon } from "@iconify/vue";
 
 // Props interface - equivalente ao LoginFormProps do React
 interface Props {
@@ -130,7 +131,7 @@ const handleSubmit = async (e: Event) => {
         @click="handleClose"
         aria-label="Fechar modal"
       >
-        <i class="text-white text-2xl icon-[material-symbols--close]"></i>
+        <Icon icon="material-symbols:close" class="text-white" />
       </button>
 
       <img

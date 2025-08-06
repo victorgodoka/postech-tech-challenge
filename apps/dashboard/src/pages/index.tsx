@@ -2,33 +2,53 @@
 
 import { useAuth } from "@/hooks/redux/useAuth";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Dashboard from "./dashboard";
-// import { redirectToHome } from "@/config";
+import { redirectToHome } from "@/config";
 
 export default function Home() {
   const { isAuthenticated, loading, session, error } = useAuth();
   const router = useRouter();
+  const [countdown, setCountdown] = useState(3);
 
-  // Logs detalhados para debug
-  console.log('=== DASHBOARD DEBUG ===');
-  console.log('isAuthenticated:', isAuthenticated);
-  console.log('loading:', loading);
-  console.log('session:', session);
-  console.log('error:', error);
-  console.log('localStorage session:', localStorage.getItem('bank-app-session'));
+  // Logs detalhados para debug (apenas em desenvolvimento)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('=== DASHBOARD DEBUG ===');
+    console.log('isAuthenticated:', isAuthenticated);
+    console.log('loading:', loading);
+    console.log('session:', session);
+    console.log('error:', error);
+    console.log('localStorage session:', localStorage.getItem('bank-app-session'));
+  }
   
   useEffect(() => {
-    console.log('=== useEffect DASHBOARD ===');
-    console.log('loading:', loading);
-    console.log('isAuthenticated:', isAuthenticated);
-    console.log('session:', session);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('=== useEffect DASHBOARD ===');
+      console.log('loading:', loading);
+      console.log('isAuthenticated:', isAuthenticated);
+      console.log('session:', session);
+    }
     
-    // REMOVIDO: Redirecionamento automático para debug
-    // if (!loading && !isAuthenticated) {
-    //   console.log('Dashboard: Usuário não autenticado, redirecionando para Home App...');
-    //   redirectToHome();
-    // }
+    // Redirecionar se não autenticado
+    if (!loading && !isAuthenticated) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Dashboard: Usuário não autenticado, redirecionando para Home App...');
+      }
+      
+      // Countdown para redirecionamento
+      const countdownTimer = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            clearInterval(countdownTimer);
+            redirectToHome();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
+      return () => clearInterval(countdownTimer);
+    }
   }, [isAuthenticated, loading, session, router]);
 
   if (loading) {
@@ -47,9 +67,20 @@ export default function Home() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800">Redirecionando...</h2>
-          <p className="text-gray-600">Você será redirecionado para a página de login.</p>
+        <div className="text-center space-y-4">
+          <div className="animate-pulse">
+            <h2 className="text-2xl font-bold text-gray-800">Redirecionando...</h2>
+            <p className="text-gray-600 mt-2">Você será redirecionado para a página de login em {countdown} segundos.</p>
+          </div>
+          <div className="flex justify-center">
+            <div className="w-8 h-8 border-4 border-green-200 border-t-green-600 rounded-full animate-spin"></div>
+          </div>
+          <button 
+            onClick={() => redirectToHome()}
+            className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+          >
+            Ir agora
+          </button>
         </div>
       </div>
     );

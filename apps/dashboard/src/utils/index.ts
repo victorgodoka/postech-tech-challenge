@@ -34,34 +34,65 @@ export function createSession(email: string, id: string, durationMinutes = 30): 
 }
 
 export function getSession(): Session | null {
-  console.log('=== UTILS GETSESSION DEBUG ===');
-  const raw = localStorage.getItem(SESSION_KEY);
-  console.log('utils getSession - raw localStorage:', raw);
+  const isDev = process.env.NODE_ENV === 'development';
   
-  if (!raw) {
-    console.log('utils getSession - localStorage vazio');
-    return null;
+  if (isDev) {
+    console.log('=== UTILS GETSESSION DEBUG ===');
   }
-
-  try {
-    const session = JSON.parse(raw) as Session;
-    console.log('utils getSession - session parsed:', session);
-    console.log('utils getSession - agora:', Date.now());
-    console.log('utils getSession - expira em:', session.expiresAt);
-    console.log('utils getSession - expirou?', Date.now() > session.expiresAt);
-    
-    if (Date.now() > session.expiresAt) {
-      console.log('utils getSession - sessão expirada, limpando');
+  
+  // Primeiro verificar localStorage
+  const raw = localStorage.getItem(SESSION_KEY);
+  if (isDev) console.log('utils getSession - raw localStorage:', raw);
+  
+  if (raw) {
+    try {
+      const session = JSON.parse(raw) as Session;
+      if (isDev) {
+        console.log('utils getSession - session parsed:', session);
+        console.log('utils getSession - agora:', Date.now());
+        console.log('utils getSession - expira em:', session.expiresAt);
+        console.log('utils getSession - expirou?', Date.now() > session.expiresAt);
+      }
+      
+      if (Date.now() > session.expiresAt) {
+        if (isDev) console.log('utils getSession - sessão expirada, limpando');
+        clearSession();
+        return null;
+      }
+      if (isDev) console.log('utils getSession - sessão válida do localStorage, retornando');
+      return session;
+    } catch (error) {
+      if (isDev) console.error('utils getSession - erro ao parsear localStorage:', error);
       clearSession();
-      return null;
     }
-    console.log('utils getSession - sessão válida, retornando');
-    return session;
-  } catch (error) {
-    console.error('utils getSession - erro ao parsear:', error);
-    clearSession();
-    return null;
   }
+  
+  // Se não encontrou no localStorage, verificar cookies
+  if (isDev) console.log('utils getSession - localStorage vazio, verificando cookies...');
+  
+  try {
+    const cookieSession = getSessionCookie();
+    if (isDev) console.log('utils getSession - cookie session:', cookieSession);
+    
+    if (cookieSession) {
+      // Verificar se cookie não expirou
+      if (Date.now() > cookieSession.expiresAt) {
+        if (isDev) console.log('utils getSession - cookie expirado');
+        removeSessionCookie();
+        return null;
+      }
+      
+      // Sincronizar cookie com localStorage
+      localStorage.setItem(SESSION_KEY, JSON.stringify(cookieSession));
+      if (isDev) console.log('utils getSession - cookie válido, sincronizado com localStorage');
+      return cookieSession;
+    }
+  } catch (error) {
+    if (isDev) console.error('utils getSession - erro ao ler cookie:', error);
+  }
+  
+  if (isDev) console.log('utils getSession - nenhuma sessão encontrada');
+  return null;
 }
 
 export function clearSession() {
@@ -98,8 +129,12 @@ export function getSessionCookie(): Session | null {
   if (!cookie) return null;
 
   try {
-    return JSON.parse(cookie.split("=")[1]) as Session;
-  } catch {
+    // O valor do cookie está codificado em base64
+    const encoded = cookie.split("=")[1];
+    const decoded = atob(encoded);
+    return JSON.parse(decoded) as Session;
+  } catch (error) {
+    console.error('Erro ao decodificar cookie de sessão:', error);
     return null;
   }
 }
