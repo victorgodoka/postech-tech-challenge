@@ -17,9 +17,26 @@ export const useAccount = (accountId: string) => {
   
   const account = accounts[accountId] || null;
 
+  // Logs detalhados do useAccount
+  console.log('=== USEACCOUNT HOOK DEBUG ===');
+  console.log('useAccount - accountId:', accountId);
+  console.log('useAccount - accounts:', accounts);
+  console.log('useAccount - account encontrada:', account);
+  console.log('useAccount - loading:', loading);
+  console.log('useAccount - error:', error);
+  console.log('=== FIM USEACCOUNT HOOK ===');
+
   useEffect(() => {
+    console.log('useAccount useEffect - accountId:', accountId);
+    console.log('useAccount useEffect - accounts[accountId]:', accounts[accountId]);
+    
     if (accountId && !accounts[accountId]) {
+      console.log('Disparando fetchAccount para:', accountId);
       dispatch(fetchAccount(accountId));
+    } else if (!accountId) {
+      console.log('accountId está vazio ou null');
+    } else {
+      console.log('Account já existe no store');
     }
   }, [dispatch, accountId, accounts]);
 

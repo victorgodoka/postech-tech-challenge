@@ -32,12 +32,13 @@ export function setSessionCookie(session: Session) {
   const isProduction = import.meta.env.PROD;
   
   if (isProduction) {
-    // Produção: usar localStorage apenas (cookies não funcionam entre domínios)
-    // O dashboard vai ler do localStorage quando o usuário acessar
-    console.log('Produção: salvando sessão apenas no localStorage');
+    // Produção: cookies compartilhados entre subdomínios
+    document.cookie = `session=${encoded}; domain=.victorgodoka.com.br; path=/; max-age=1800; SameSite=Lax; Secure`;
+    console.log('Cookie de sessão configurado para domínio compartilhado: .victorgodoka.com.br');
   } else {
     // Desenvolvimento: cookies para localhost
     document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Lax`;
+    console.log('Cookie de sessão configurado para desenvolvimento');
   }
 }
 

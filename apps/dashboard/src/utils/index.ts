@@ -34,17 +34,31 @@ export function createSession(email: string, id: string, durationMinutes = 30): 
 }
 
 export function getSession(): Session | null {
+  console.log('=== UTILS GETSESSION DEBUG ===');
   const raw = localStorage.getItem(SESSION_KEY);
-  if (!raw) return null;
+  console.log('utils getSession - raw localStorage:', raw);
+  
+  if (!raw) {
+    console.log('utils getSession - localStorage vazio');
+    return null;
+  }
 
   try {
     const session = JSON.parse(raw) as Session;
+    console.log('utils getSession - session parsed:', session);
+    console.log('utils getSession - agora:', Date.now());
+    console.log('utils getSession - expira em:', session.expiresAt);
+    console.log('utils getSession - expirou?', Date.now() > session.expiresAt);
+    
     if (Date.now() > session.expiresAt) {
+      console.log('utils getSession - sessão expirada, limpando');
       clearSession();
       return null;
     }
+    console.log('utils getSession - sessão válida, retornando');
     return session;
-  } catch {
+  } catch (error) {
+    console.error('utils getSession - erro ao parsear:', error);
     clearSession();
     return null;
   }
@@ -60,11 +74,13 @@ export function setSessionCookie(session: Session) {
   const isProduction = process.env.NODE_ENV === 'production';
   
   if (isProduction) {
-    // Produção: cookies seguros com HttpOnly
-    document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Strict; Secure; HttpOnly`;
+    // Produção: cookies compartilhados entre subdomínios
+    document.cookie = `session=${encoded}; domain=.victorgodoka.com.br; path=/; max-age=1800; SameSite=Lax; Secure`;
+    console.log('Cookie de sessão configurado para domínio compartilhado: .victorgodoka.com.br');
   } else {
-    // Desenvolvimento: cookies mais permissivos para localhost (sem HttpOnly para JS access)
+    // Desenvolvimento: cookies para localhost
     document.cookie = `session=${encoded}; path=/; max-age=1800; SameSite=Lax`;
+    console.log('Cookie de sessão configurado para desenvolvimento');
   }
 }
 

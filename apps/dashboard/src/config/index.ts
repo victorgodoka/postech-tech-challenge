@@ -1,25 +1,24 @@
 // Configuração de URLs para diferentes ambientes
-function getHomeUrlInternal(): string {
-  const envUrl = process.env.NEXT_PUBLIC_HOME_URL;
-  const defaultUrl = process.env.NODE_ENV === 'development' 
-    ? 'http://localhost:4001' 
-    : 'https://postech-tech-challenge-three.vercel.app/';
+function getHomeUrl(): string {
+  if (typeof window === 'undefined') {
+    return process.env.NEXT_PUBLIC_HOME_URL || 'http://localhost:5173';
+  }
   
-  return envUrl || defaultUrl;
+  return process.env.NEXT_PUBLIC_HOME_URL || 'https://home.victorgodoka.com.br';
 }
 
 function getDashboardUrlInternal(): string {
   const envUrl = process.env.NEXT_PUBLIC_DASHBOARD_URL;
   const defaultUrl = process.env.NODE_ENV === 'development' 
     ? 'http://localhost:3000' 
-    : 'https://postech-tech-challenge.vercel.app/';
+    : 'https://dashboard.victorgodoka.com.br';
   
   return envUrl || defaultUrl;
 }
 
 export const config = {
   // URL do Home Vue.js
-  homeUrl: getHomeUrlInternal(),
+  homeUrl: getHomeUrl(),
   
   // URL do Dashboard (para referência)
   dashboardUrl: getDashboardUrlInternal(),
@@ -57,7 +56,4 @@ export function redirectToHome(): void {
   }
 }
 
-// Função para obter URL do home
-export function getHomeUrl(): string {
-  return config.homeUrl;
-}
+

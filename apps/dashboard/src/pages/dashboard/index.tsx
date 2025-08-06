@@ -15,10 +15,21 @@ import Transactions from "./Transactions";
 moment.locale("pt-br");
 
 function Dashboard() {
-  const { session } = useAuth();
+  const { session, isAuthenticated, loading, error } = useAuth();
   const { account } = useAccount(session?.id || "");
   const services: Services[] = useServices();
   const [active, setActive] = useState(0);
+
+  // Logs detalhados do Dashboard
+  console.log('=== DASHBOARD COMPONENT DEBUG ===');
+  console.log('Dashboard - session:', session);
+  console.log('Dashboard - isAuthenticated:', isAuthenticated);
+  console.log('Dashboard - loading:', loading);
+  console.log('Dashboard - error:', error);
+  console.log('Dashboard - account:', account);
+  console.log('Dashboard - services:', services);
+  console.log('Dashboard - session?.id:', session?.id);
+  console.log('=== FIM DASHBOARD COMPONENT ===');
 
   return (
     <>

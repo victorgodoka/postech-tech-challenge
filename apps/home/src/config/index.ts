@@ -1,23 +1,23 @@
 // Configuração de URLs para diferentes ambientes
 function getDashboardUrlInternal(): string {
-  const envUrl = import.meta.env.VITE_DASHBOARD_URL;
-  const defaultUrl = import.meta.env.DEV 
-    ? 'http://localhost:3000' 
-    : 'https://postech-tech-challenge-dashboard.vercel.app';
-  
-  return envUrl || defaultUrl;
+  return import.meta.env.VITE_DASHBOARD_URL || 'https://dashboard.victorgodoka.com.br';
 }
 
 function getHomeUrlInternal(): string {
   const envUrl = import.meta.env.VITE_HOME_URL;
   const defaultUrl = import.meta.env.DEV 
     ? 'http://localhost:4001' 
-    : 'https://postech-home.vercel.app';
-  
+    : 'https://home.victorgodoka.com.br';
+    
   return envUrl || defaultUrl;
 }
 
-export const config = {
+export const config: {
+  readonly dashboardUrl: string;
+  readonly homeUrl: string;
+  readonly isDev: boolean;
+  readonly isProd: boolean;
+} = {
   // URL do Dashboard Next.js
   dashboardUrl: getDashboardUrlInternal(),
   
@@ -52,6 +52,6 @@ export function redirectToDashboard(): void {
 }
 
 // Função para obter URL do dashboard
-export function getDashboardUrl() {
+export function getDashboardUrl(): string {
   return config.dashboardUrl;
 }
