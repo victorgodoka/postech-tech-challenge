@@ -2,7 +2,7 @@
 import { openDB } from 'idb';
 
 export const getDB = () => {
-  return openDB('bank-app', 3, {
+  return openDB('bank-app', 4, {
     upgrade(db, oldVersion) {
       // Criar stores básicos (versão 1)
       if (!db.objectStoreNames.contains('users')) {
@@ -34,6 +34,13 @@ export const getDB = () => {
         store.createIndex('transactionId', 'transactionId');
         store.createIndex('uploadDate', 'uploadDate');
         store.createIndex('fileType', 'fileType');
+      }
+
+      // Adicionar store de sessões (versão 4)
+      if (oldVersion < 4 && !db.objectStoreNames.contains('sessions')) {
+        const store = db.createObjectStore('sessions', { keyPath: 'id' });
+        store.createIndex('userId', 'userId');
+        store.createIndex('expiresAt', 'expiresAt');
       }
     },
   });
